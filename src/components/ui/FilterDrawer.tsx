@@ -87,7 +87,7 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           position: 'fixed',
           top: 0,
           right: 0,
-          height: '100vh',
+          height: '100dvh',
           width: '380px',
           maxWidth: '100vw',
           background: 'var(--bg-elevated)',
