@@ -229,20 +229,20 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
                 <span style={checkTextStyle}>{col.label}</span>
               </label>
             ))}
-          </div>
-        </div>
 
-        {/* Footer */}
-        <div style={{ padding: '24px', borderTop: '1px solid var(--bg-border)', display: 'flex', gap: '16px', flexShrink: 0 }}>
-          <button
-            onClick={() => { clearFilters(); onClose(); }}
-            style={{ color: 'var(--text-muted)', fontSize: '13px', fontFamily: 'var(--font-ui)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
-          >
-            Clear All
-          </button>
-          <button className="btn-primary btn-full" onClick={onClose}>
-            APPLY FILTERS
-          </button>
+            {/* Actions */}
+            <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
+              <button
+                onClick={() => { clearFilters(); onClose(); }}
+                style={{ color: 'var(--text-muted)', fontSize: '13px', fontFamily: 'var(--font-ui)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                Clear All
+              </button>
+              <button className="btn-primary btn-full" onClick={onClose}>
+                APPLY FILTERS
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>
