@@ -42,11 +42,22 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
     if (!drawer || !overlay) return;
 
     if (isOpen) {
+      // Lock page scroll (works on iOS Safari too)
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
       gsap.to(overlay, { opacity: 0.6, duration: 0.4 });
     } else {
+      // Restore scroll position
+      const scrollY = parseFloat(document.body.style.top || '0') * -1;
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
       gsap.to(drawer, { x: '100%', duration: 0.35, ease: 'power2.in' });
       gsap.to(overlay, { opacity: 0, duration: 0.35 });
     }
@@ -84,7 +95,7 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           zIndex: 201,
           display: 'flex',
           flexDirection: 'column',
-          overflowY: 'auto',
+          overflow: 'hidden',
         }}
       >
         {/* Header */}
