@@ -5,7 +5,7 @@ export function BuildYourBoxBanner() {
     <section
       style={{
         background: 'var(--bg-elevated)',
-        padding: '120px 0',
+        padding: 'clamp(60px, 10vw, 120px) 24px',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
