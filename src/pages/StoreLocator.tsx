@@ -54,6 +54,7 @@ export default function StoreLocator() {
         {/* SECTION 1 — PAGE HEADER */}
         <div
           ref={headerRef}
+          className="page-header"
           style={{
             minHeight: '240px', background: 'var(--bg-elevated)', borderBottom: '1px solid var(--gold-line)',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -75,9 +76,10 @@ export default function StoreLocator() {
         </div>
 
         {/* SECTION 2 — MAIN TWO-COLUMN LAYOUT */}
-        <div style={{ display: 'flex', height: '620px', width: '100%' }}>
+        <div className="store-main-layout" style={{ display: 'flex', height: '620px', width: '100%' }}>
           {/* LEFT COLUMN */}
           <div
+            className="store-info-col"
             style={{
               width: '38%',
               background: 'var(--bg-elevated)',
@@ -186,7 +188,7 @@ export default function StoreLocator() {
           </div>
 
           {/* RIGHT COLUMN — MAP */}
-          <div style={{ width: '62%', height: '100%' }}>
+          <div className="store-map-col" style={{ width: '62%', height: '100%' }}>
             <Map
               mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
               initialViewState={{
@@ -209,10 +211,10 @@ export default function StoreLocator() {
         </div>
 
         {/* SECTION 3 — NEIGHBOURHOOD GUIDE */}
-        <div style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '100px 60px' }}>
-          <div style={{ display: 'flex', width: '100%' }}>
+        <div className="store-neighbourhood" style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '100px 60px' }}>
+          <div className="store-neighbourhood-inner" style={{ display: 'flex', width: '100%' }}>
             {/* Left Col */}
-            <div style={{ width: '40%', paddingRight: '60px' }}>
+            <div className="store-neighbourhood-left" style={{ width: '40%', paddingRight: '60px' }}>
               <p className="text-label" style={{ color: 'var(--gold-muted)' }}>
                 THE NEIGHBOURHOOD
               </p>
@@ -225,7 +227,7 @@ export default function StoreLocator() {
             </div>
 
             {/* Right Col */}
-            <div ref={cardsRef} style={{ width: '60%', display: 'flex', gap: '24px' }}>
+            <div ref={cardsRef} className="store-cards-col" style={{ width: '60%', display: 'flex', gap: '24px' }}>
               {/* Card 1 */}
               <div
                 style={{
@@ -279,6 +281,19 @@ export default function StoreLocator() {
 
         <Footer variant="full" />
       </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .store-main-layout { flex-direction: column-reverse !important; height: auto !important; }
+          .store-map-col { width: 100% !important; height: 300px !important; }
+          .store-info-col { width: 100% !important; height: auto !important; padding: 32px 24px !important; }
+          .store-info-col a { width: 100% !important; box-sizing: border-box !important; }
+          .store-neighbourhood { padding: 60px 24px !important; }
+          .store-neighbourhood-inner { flex-direction: column !important; }
+          .store-neighbourhood-left { width: 100% !important; padding-right: 0 !important; margin-bottom: 32px !important; }
+          .store-cards-col { width: 100% !important; flex-direction: column !important; }
+        }
+      `}</style>
     </>
   );
 }

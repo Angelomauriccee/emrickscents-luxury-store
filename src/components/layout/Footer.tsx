@@ -128,7 +128,12 @@ export function Footer({ variant = 'full' }: FooterProps) {
           .footer-grid { grid-template-columns: 1fr 1fr !important; }
         }
         @media (max-width: 640px) {
-          .footer-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .footer-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+          .footer-grid > div { text-align: center !important; padding: 32px 0 !important; border-bottom: 1px solid var(--bg-border) !important; }
+          .footer-grid > div:last-child { border-bottom: none !important; }
+          .footer-grid > div p { margin-left: auto !important; margin-right: auto !important; }
+          .footer-grid > div > div { justify-content: center !important; align-items: center !important; }
+          .footer-grid > div a, .footer-grid > div button { text-align: center !important; }
         }
       `}</style>
     </footer>

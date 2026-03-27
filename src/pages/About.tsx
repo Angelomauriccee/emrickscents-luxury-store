@@ -47,7 +47,7 @@ export default function About() {
   return (
     <>
       {/* SECTION 1 — HERO */}
-      <div style={{ position: 'relative', width: '100%', height: '60vh', background: 'var(--bg-elevated)', backgroundImage: 'url(/images/about_hero.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="about-hero" style={{ position: 'relative', width: '100%', height: '60vh', background: 'var(--bg-elevated)', backgroundImage: 'url(/images/about_hero.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1 }} />
         
         <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
@@ -60,10 +60,10 @@ export default function About() {
       </div>
 
       {/* SECTION 2 — FOUNDING STORY */}
-      <div style={{ display: 'flex', width: '100%' }}>
-        <div style={{ width: '50%', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_story.png)', backgroundSize: 'cover', backgroundPosition: 'center', aspectRatio: '3/4' }} />
-        
-        <div ref={storyRightRef} style={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '60px', paddingRight: '60px' }}>
+      <div className="about-story" style={{ display: 'flex', width: '100%' }}>
+        <div className="about-story-img" style={{ width: '50%', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_story.png)', backgroundSize: 'cover', backgroundPosition: 'center', aspectRatio: '3/4' }} />
+
+        <div ref={storyRightRef} className="about-story-text" style={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '60px', paddingRight: '60px' }}>
           <p className="text-label" style={{ color: 'var(--gold-muted)', marginBottom: '16px' }}>THE BEGINNING</p>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '52px', color: 'var(--text-primary)', lineHeight: 1.1, marginBottom: '24px' }}>
             About EmRick Scents
@@ -87,10 +87,10 @@ export default function About() {
       </div>
 
       {/* SECTION 3 — THREE PILLARS */}
-      <div style={{ width: '100%', background: 'var(--bg-elevated)', borderTop: '1px solid var(--gold-line)', borderBottom: '1px solid var(--gold-line)', padding: '80px 0' }}>
-        <div ref={pillarsRef} style={{ display: 'flex', width: '100%' }}>
+      <div className="about-pillars-wrap" style={{ width: '100%', background: 'var(--bg-elevated)', borderTop: '1px solid var(--gold-line)', borderBottom: '1px solid var(--gold-line)', padding: '80px 0' }}>
+        <div ref={pillarsRef} className="about-pillars" style={{ display: 'flex', width: '100%' }}>
           {/* Column 1 */}
-          <div style={{ flex: 1, padding: '40px', textAlign: 'center', borderRight: '1px solid var(--gold-line)' }}>
+          <div className="about-pillar" style={{ flex: 1, padding: '40px', textAlign: 'center', borderRight: '1px solid var(--gold-line)' }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '64px', color: 'var(--gold)', marginBottom: '16px' }}>I</h3>
             <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '11px', marginBottom: '16px' }}>CURATION</p>
             <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: '28px', color: 'var(--text-primary)', marginBottom: '16px' }}>Only the finest houses.</p>
@@ -98,7 +98,7 @@ export default function About() {
           </div>
 
           {/* Column 2 */}
-          <div style={{ flex: 1, padding: '40px', textAlign: 'center', borderRight: '1px solid var(--gold-line)' }}>
+          <div className="about-pillar" style={{ flex: 1, padding: '40px', textAlign: 'center', borderRight: '1px solid var(--gold-line)' }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '64px', color: 'var(--gold)', marginBottom: '16px' }}>II</h3>
             <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '11px', marginBottom: '16px' }}>EXPERIENCE</p>
             <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: '28px', color: 'var(--text-primary)', marginBottom: '16px' }}>Scent as ritual.</p>
@@ -106,7 +106,7 @@ export default function About() {
           </div>
 
           {/* Column 3 */}
-          <div style={{ flex: 1, padding: '40px', textAlign: 'center' }}>
+          <div className="about-pillar" style={{ flex: 1, padding: '40px', textAlign: 'center' }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '64px', color: 'var(--gold)', marginBottom: '16px' }}>III</h3>
             <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '11px', marginBottom: '16px' }}>DELIVERY</p>
             <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: '28px', color: 'var(--text-primary)', marginBottom: '16px' }}>Lagos and beyond.</p>
@@ -116,7 +116,7 @@ export default function About() {
       </div>
 
       {/* SECTION 4 — PHILOSOPHY QUOTE */}
-      <div style={{ position: 'relative', width: '100%', height: '50vh', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_quote_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
+      <div className="about-quote" style={{ position: 'relative', width: '100%', height: '50vh', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_quote_bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.65)', zIndex: 1 }} />
         
         <div ref={quoteRef} style={{ position: 'relative', zIndex: 2, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '700px', padding: '0 24px' }}>
@@ -130,8 +130,8 @@ export default function About() {
       </div>
 
       {/* SECTION 5 — STORE LOCATOR TEASER */}
-      <div style={{ display: 'flex', width: '100%' }}>
-        <div style={{ width: '55%', background: 'var(--bg-elevated)', padding: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div className="about-teaser" style={{ display: 'flex', width: '100%' }}>
+        <div className="about-teaser-text" style={{ width: '55%', background: 'var(--bg-elevated)', padding: '60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <p className="text-label" style={{ color: 'var(--gold-muted)', marginBottom: '16px' }}>EXPERIENCE IN PERSON</p>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '48px', color: 'var(--text-primary)', lineHeight: 1.1, marginBottom: '24px' }}>
             Flagship Boutique
@@ -158,10 +158,35 @@ export default function About() {
           <style>{`.teaser-link:hover .teaser-line { width: 100% !important; }`}</style>
         </div>
         
-        <div style={{ width: '45%', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_boutique.png)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+        <div className="about-teaser-img" style={{ width: '45%', background: 'var(--bg-surface)', backgroundImage: 'url(/images/about_boutique.png)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
       </div>
 
       <Footer variant="full" />
+
+      <style>{`
+        @media (max-width: 767px) {
+          /* Hero */
+          .about-hero { height: 50vw !important; min-height: 240px !important; }
+          .about-hero h1 { font-size: clamp(40px, 9vw, 80px) !important; }
+          /* Founding story */
+          .about-story { flex-direction: column !important; }
+          .about-story-img { width: 100% !important; aspect-ratio: 4/3 !important; min-height: unset !important; }
+          .about-story-text { width: 100% !important; padding: 40px 24px !important; }
+          /* Pillars */
+          .about-pillars { flex-direction: column !important; }
+          .about-pillar { border-right: none !important; border-bottom: 1px solid var(--gold-line) !important; padding: 32px 24px !important; }
+          .about-pillar:last-child { border-bottom: none !important; }
+          /* Quote */
+          .about-quote { height: auto !important; min-height: 300px !important; padding: 60px 24px !important; }
+          .about-quote p { font-size: clamp(28px, 6vw, 52px) !important; }
+          /* Store teaser */
+          .about-teaser { flex-direction: column !important; }
+          .about-teaser-text { width: 100% !important; padding: 40px 24px !important; }
+          .about-teaser-img { width: 100% !important; height: 240px !important; }
+          /* Page padding */
+          .about-pillars-wrap { padding: 60px 0 !important; }
+        }
+      `}</style>
     </>
   );
 }

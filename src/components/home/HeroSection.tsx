@@ -96,7 +96,7 @@ export function HeroSection() {
         >
           A curated library of the world's finest fragrances, sourced thoughtfully and presented for the discerning nose. Discover your signature.
         </p>
-        <div ref={ctasRef} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <div ref={ctasRef} className="hero-ctas" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <Link to="/shop" className="btn-primary">
             EXPLORE COLLECTIONS
           </Link>
@@ -154,10 +154,17 @@ export function HeroSection() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          section { flex-direction: column !important; min-height: auto !important; }
-          .hero-left { width: 100% !important; padding: 80px 24px 40px !important; }
-          .hero-right { width: 100% !important; height: 60vw !important; }
+        @media (max-width: 767px) {
+          section { flex-direction: column-reverse !important; min-height: auto !important; }
+          .hero-left { width: 100% !important; padding: 40px 24px 60px !important; order: 2; }
+          .hero-right { width: 100% !important; min-height: 60vw !important; height: 60vw !important; order: 1; }
+          .hero-left .gradient-edge { display: none !important; }
+          .hero-ctas { flex-direction: column !important; }
+          .hero-ctas a { width: 100% !important; justify-content: center !important; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero-left { width: 50% !important; padding: 80px 40px !important; }
+          .hero-right { width: 50% !important; }
         }
       `}</style>
     </section>

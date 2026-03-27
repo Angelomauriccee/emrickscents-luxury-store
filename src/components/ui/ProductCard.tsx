@@ -89,6 +89,7 @@ export function ProductCard({ product, variant = 'default', showQuickAdd = true,
               display: 'block',
               transformOrigin: 'center',
             }}
+            onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.src = '/images/placeholder.svg'; }}
           />
           {product.isNew && !isHorizontal && (
             <span className="badge-new" style={{ position: 'absolute', top: '12px', left: '12px' }}>

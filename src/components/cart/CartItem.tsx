@@ -118,7 +118,7 @@ export function CartItem({ item }: CartItemProps) {
         <div style={{ height: '1px', background: 'var(--gold-line)', margin: '16px 0' }} />
 
         {/* Personalisation row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+        <div className="cart-box-personalisation" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
           <div>
             <p style={{ fontFamily: 'var(--font-label)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--gold-muted)', marginBottom: '8px' }}>RIBBON</p>
             {item.boxRibbon ? (

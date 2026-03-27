@@ -85,7 +85,7 @@ export default function Contact() {
     <>
       <div>
         {/* SECTION 1 — PAGE HEADER */}
-        <div style={{
+        <div className="page-header" style={{
           minHeight: '240px', background: 'var(--bg-elevated)', borderBottom: '1px solid var(--gold-line)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           textAlign: 'center', padding: '0 80px',
@@ -103,12 +103,12 @@ export default function Contact() {
         </div>
 
         {/* SECTION 2 — CONTACT FORM + INFO */}
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '80px 0', display: 'flex' }}>
+        <div className="contact-layout" style={{ maxWidth: '1200px', margin: '0 auto', padding: '80px 0', display: 'flex' }}>
           {/* LEFT COLUMN — CONTACT FORM */}
-          <div style={{ width: '58%', paddingRight: '60px' }}>
+          <div className="contact-form-col" style={{ width: '58%', paddingRight: '60px' }}>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div className="contact-name-email-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                 <div>
                   <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '10px', marginBottom: '8px' }}>FULL NAME</p>
                   <input required value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="ALEXANDER EMRICK" style={{ width: '100%', height: '48px', background: 'transparent', border: 'none', borderBottom: '1px solid var(--bg-border)', borderRadius: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-ui)', fontSize: '14px', outline: 'none' }} onFocus={(e) => e.target.style.borderBottomColor = 'var(--gold)'} onBlur={(e) => e.target.style.borderBottomColor = 'var(--bg-border)'} />
@@ -146,8 +146,8 @@ export default function Contact() {
           </div>
 
           {/* RIGHT COLUMN — STICKY CONTACT INFO */}
-          <div style={{ width: '42%' }}>
-            <div style={{ position: 'sticky', top: '96px', padding: '0 36px' }}>
+          <div className="contact-info-col" style={{ width: '42%' }}>
+            <div className="contact-info-inner" style={{ position: 'sticky', top: '96px', padding: '0 36px' }}>
               
               {/* Block 1 */}
               <div style={{ marginBottom: '32px' }}>
@@ -193,7 +193,7 @@ export default function Contact() {
         </div>
 
         {/* SECTION 3 — FAQ ACCORDION */}
-        <div style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '100px 0' }}>
+        <div className="contact-faq-section" style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '100px 0' }}>
           <div style={{ maxWidth: '600px', margin: '0 auto 60px', textAlign: 'center' }}>
             <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '11px', marginBottom: '16px' }}>LEARN MORE</p>
             <h2 style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 300, fontSize: '64px', color: 'var(--text-primary)', lineHeight: 1 }}>Frequently Asked</h2>
@@ -227,7 +227,7 @@ export default function Contact() {
         </div>
 
         {/* SECTION 4 — MAP */}
-        <div style={{ width: '100%', height: '400px', position: 'relative' }}>
+        <div className="contact-map" style={{ width: '100%', height: '400px', position: 'relative' }}>
           <Map
             mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
             initialViewState={{ longitude: LONGITUDE, latitude: LATITUDE, zoom: 15 }}
@@ -255,6 +255,19 @@ export default function Contact() {
 
         <Footer variant="full" />
       </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .contact-layout { flex-direction: column !important; padding: 40px 24px !important; }
+          .contact-form-col { width: 100% !important; padding-right: 0 !important; }
+          .contact-info-col { width: 100% !important; margin-top: 48px !important; }
+          .contact-info-inner { position: static !important; padding: 0 !important; }
+          .contact-name-email-row { grid-template-columns: 1fr !important; }
+          .contact-faq-section { padding: 60px 24px !important; }
+          .contact-faq-section > div { padding: 0 !important; }
+          .contact-map { height: 300px !important; }
+        }
+      `}</style>
     </>
   );
 }

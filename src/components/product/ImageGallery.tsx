@@ -46,12 +46,13 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
             style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '20px', transition: 'transform 0.3s ease' }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+            onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.src = '/images/placeholder.svg'; }}
           />
         </div>
 
         {/* Thumbnails */}
         {images.length > 1 && (
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <div className="pdp-thumbnails" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             {images.slice(0, 4).map((img, idx) => (
               <button
                 key={idx}

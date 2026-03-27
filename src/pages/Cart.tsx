@@ -23,7 +23,7 @@ export default function Cart() {
 
   return (
     <>
-      <div className="container-content" style={{ padding: '64px 80px', minHeight: '80vh' }}>
+      <div className="container-content cart-page" style={{ padding: '64px 80px', minHeight: '80vh' }}>
         {cartItems.length === 0 ? (
           <EmptyState
             icon={<FiShoppingBag />}
@@ -35,7 +35,7 @@ export default function Cart() {
         ) : (
           <>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '60px' }}>
+            <div className="cart-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '60px' }}>
               <div>
                 <p className="text-label" style={{ color: 'var(--gold-muted)', marginBottom: '10px' }}>YOUR CART</p>
                 <h1
@@ -50,7 +50,7 @@ export default function Cart() {
                   Your Selection
                 </h1>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+              <div className="cart-header-right" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                 <p className="text-label" style={{ color: 'var(--text-secondary)' }}>
                   {cartCount} {cartCount === 1 ? 'ITEM' : 'ITEMS'} IN YOUR COLLECTION
                 </p>
@@ -108,11 +108,15 @@ export default function Cart() {
       <Footer variant="full" />
 
       <style>{`
-        @media (max-width: 1024px) {
+        @media (max-width: 1023px) {
           .cart-layout { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 768px) {
-          .container-content { padding: 40px 24px !important; }
+        @media (max-width: 767px) {
+          .cart-page { padding: 32px 24px !important; }
+          .cart-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; margin-bottom: 32px !important; }
+          .cart-header-right { flex-direction: row !important; gap: 16px !important; align-items: center !important; }
+          .cart-box-personalisation { grid-template-columns: 1fr !important; }
+          .order-summary-wrap { position: static !important; }
         }
       `}</style>
     </>

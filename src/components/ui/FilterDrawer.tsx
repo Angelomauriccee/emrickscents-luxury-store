@@ -34,13 +34,23 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
     const overlay = overlayRef.current;
     if (!drawer || !overlay) return;
 
+    const isMobile = window.innerWidth < 768;
+
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
+      if (isMobile) {
+        gsap.to(drawer, { y: 0, duration: 0.4, ease: 'power2.out' });
+      } else {
+        gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
+      }
       gsap.to(overlay, { opacity: 0.6, duration: 0.4 });
     } else {
       document.body.style.overflow = '';
-      gsap.to(drawer, { x: 380, duration: 0.35, ease: 'power2.in' });
+      if (isMobile) {
+        gsap.to(drawer, { y: '85vh', duration: 0.35, ease: 'power2.in' });
+      } else {
+        gsap.to(drawer, { x: 380, duration: 0.35, ease: 'power2.in' });
+      }
       gsap.to(overlay, { opacity: 0, duration: 0.35 });
     }
   }, [isOpen]);
@@ -64,6 +74,7 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
       {/* Drawer */}
       <div
         ref={drawerRef}
+        className="filter-drawer"
         style={{
           position: 'fixed',
           top: 0,
@@ -79,6 +90,23 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           flexDirection: 'column',
         }}
       >
+      <style>{`
+        @media (max-width: 767px) {
+          .filter-drawer {
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            height: 85vh !important;
+            transform: translateY(85vh) !important;
+            border-left: none !important;
+            border-top: 1px solid var(--bg-border) !important;
+            border-radius: 8px 8px 0 0 !important;
+          }
+        }
+      `}</style>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid var(--bg-border)', flexShrink: 0 }}>
           <span className="text-label" style={{ color: 'var(--text-primary)' }}>FILTER</span>

@@ -36,7 +36,7 @@ export default function ProductDetail() {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="container-content" style={{ padding: '24px 80px' }}>
+      <div className="container-content pdp-breadcrumb" style={{ padding: '24px 80px' }}>
         <Breadcrumb
           items={[
             { label: 'Home', path: '/' },
@@ -47,7 +47,7 @@ export default function ProductDetail() {
       </div>
 
       {/* PDP layout */}
-      <div className="container-content" style={{ padding: '0 80px 80px' }}>
+      <div className="container-content pdp-main" style={{ padding: '0 80px 80px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '55% 45%', gap: '64px' }} className="pdp-layout">
           {/* Left — Gallery */}
           <div>
@@ -84,11 +84,14 @@ export default function ProductDetail() {
       <Footer variant="full" />
 
       <style>{`
-        @media (max-width: 1024px) {
+        @media (max-width: 1023px) {
           .pdp-layout { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
-        @media (max-width: 768px) {
-          .container-content { padding-left: 24px !important; padding-right: 24px !important; }
+        @media (max-width: 767px) {
+          .pdp-breadcrumb { padding: 16px 24px !important; }
+          .pdp-main { padding: 0 24px 60px !important; }
+          .pdp-thumbnails { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 4px !important; -webkit-overflow-scrolling: touch !important; }
+          .pdp-thumbnails button { width: 60px !important; height: 72px !important; flex-shrink: 0 !important; }
         }
       `}</style>
     </>

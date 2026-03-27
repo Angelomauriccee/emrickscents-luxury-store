@@ -9,7 +9,7 @@ export function OrderSummary() {
 
   return (
     <div
-      className="card"
+      className="card order-summary-wrap"
       style={{ padding: '32px', position: 'sticky', top: 'calc(var(--nav-height) + 24px)' }}
     >
       <p className="text-label" style={{ color: 'var(--text-secondary)', marginBottom: '28px' }}>ORDER SUMMARY</p>

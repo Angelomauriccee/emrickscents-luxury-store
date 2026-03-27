@@ -204,7 +204,7 @@ function ShopContent() {
   return (
     <>
       {/* Page header */}
-      <div style={{
+      <div className="page-header" style={{
         minHeight: '240px', background: 'var(--bg-elevated)', borderBottom: '1px solid var(--gold-line)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         textAlign: 'center', padding: '0 80px',
@@ -229,7 +229,7 @@ function ShopContent() {
       <FilterDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} brands={allBrands} />
 
       {/* Content */}
-      <div className="container-content" style={{ padding: '48px 80px' }}>
+      <div className="container-content shop-content-padding" style={{ padding: '48px 80px' }}>
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }} className="shop-grid">
             {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
@@ -270,12 +270,14 @@ function ShopContent() {
       <Footer variant="full" />
 
       <style>{`
-        @media (max-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (max-width: 768px) {
-          .shop-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .container-content { padding-left: 24px !important; padding-right: 24px !important; }
+        @media (max-width: 1023px) { .shop-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 767px) {
+          .shop-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+          .shop-content-padding { padding: 32px 24px !important; }
+          .filter-bar-controls { display: none !important; }
+          .filter-bar-inner { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 4px !important; }
+          .shop-list-row-btn { display: none !important; }
         }
-        @media (max-width: 480px) { .shop-grid { grid-template-columns: repeat(1, 1fr) !important; } }
       `}</style>
     </>
   );

@@ -80,7 +80,7 @@ export function FilterBar({ totalCount, viewMode, onViewChange, onOpenDrawer }: 
           </div>
 
           {/* Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexShrink: 0 }}>
+          <div className="filter-bar-controls" style={{ display: 'flex', alignItems: 'center', gap: '20px', flexShrink: 0 }}>
             {totalCount !== undefined && (
               <span className="text-label" style={{ color: 'var(--text-muted)' }}>
                 {totalCount} FRAGRANCES

@@ -32,11 +32,19 @@ export function Navbar() {
     document.body.style.overflow = next ? 'hidden' : '';
   };
 
+  // ESC closes mobile menu
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && mobileOpen) toggleMobile(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [mobileOpen]);
+
   useEffect(() => {
     const el = mobileMenuRef.current;
     if (!el) return;
     if (mobileOpen) {
       gsap.fromTo(el, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' });
+      gsap.fromTo(el.querySelectorAll('a'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.08, duration: 0.4, delay: 0.1, ease: 'power2.out' });
     }
   }, [mobileOpen]);
 
@@ -151,7 +159,7 @@ export function Navbar() {
             position: 'fixed',
             inset: 0,
             top: 'var(--nav-height)',
-            background: 'var(--bg-elevated)',
+            background: 'var(--bg-primary)',
             zIndex: 99,
             display: 'flex',
             flexDirection: 'column',

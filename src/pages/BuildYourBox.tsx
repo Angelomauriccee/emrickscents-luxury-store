@@ -151,7 +151,7 @@ export default function BuildYourBox() {
       {STEPS.map((s, idx) => (
         <span key={s} style={{ display: 'flex', alignItems: 'center' }}>
           {idx > 0 && (
-            <span style={{ width: '64px', height: '1px', background: 'rgba(201,168,76,0.2)', display: 'block', marginTop: '16px' }} />
+            <span className="box-progress-line" style={{ width: '64px', height: '1px', background: 'rgba(201,168,76,0.2)', display: 'block', marginTop: '16px' }} />
           )}
           <div
             onClick={() => idx < step && setStep(idx)}
@@ -185,7 +185,7 @@ export default function BuildYourBox() {
               )}
             </div>
             {/* Label */}
-            <span style={{
+            <span className="box-progress-label" style={{
               fontFamily: 'var(--font-label)',
               fontSize: '11px',
               textTransform: 'uppercase',
@@ -207,7 +207,7 @@ export default function BuildYourBox() {
           STEP 0 — SELECT
           ═══════════════════════════════════════════════ */}
       {step === 0 && (
-        <div className="container-content" style={{ padding: '0 80px 80px' }}>
+        <div className="container-content box-step0-padding" style={{ padding: '0 80px 80px' }}>
           {progressIndicator}
 
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
@@ -257,7 +257,7 @@ export default function BuildYourBox() {
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }} className="box-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', width: '100%' }} className="box-grid">
               {loading
                 ? Array.from({ length: 8 }).map((_, i) => (
                     <div key={i} className="skeleton" style={{ aspectRatio: '3/4', borderRadius: '2px' }} />
@@ -442,7 +442,7 @@ export default function BuildYourBox() {
                   </div>
                 </section>
 
-                <div style={{ maxWidth: '720px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '96px', borderBottom: '1px solid var(--bg-border)', paddingBottom: '80px' }}>
+                <div className="box-nav-row" style={{ maxWidth: '720px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '96px', borderBottom: '1px solid var(--bg-border)', paddingBottom: '80px' }}>
                   <button onClick={() => setStep(0)} className="btn-secondary" style={{ padding: '0 48px' }}>
                     ← BACK
                   </button>
@@ -455,7 +455,7 @@ export default function BuildYourBox() {
 
             {/* ─── STEP 2: ORDER SUMMARY ───────────────── */}
             {step === 2 && (
-              <div style={{
+              <div className="box-step2-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: '7fr 5fr',
                 gap: '4rem',
@@ -541,7 +541,7 @@ export default function BuildYourBox() {
                 </div>
 
                 {/* RIGHT COLUMN — sticky */}
-                <aside style={{ position: 'sticky', top: '96px', minWidth: 0 }}>
+                <aside className="box-step2-aside" style={{ position: 'sticky', top: '96px', minWidth: 0 }}>
                   {/* Summary card */}
                   <div style={{ background: '#2A2A2A', padding: '32px', position: 'relative', overflow: 'hidden' }}>
 
@@ -640,6 +640,26 @@ export default function BuildYourBox() {
       )}
 
       <Footer variant="full" />
+
+      <style>{`
+        /* Box product selection grid */
+        @media (max-width: 1023px) { .box-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 767px) {
+          .box-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+          .box-step0-padding { padding: 0 24px 60px !important; }
+          /* Step 1 personalise */
+          .box-step1-padding { padding-bottom: 60px !important; }
+          /* Step 2 order layout — stack */
+          .box-step2-grid { grid-template-columns: 1fr !important; padding: 0 24px 60px !important; }
+          .box-step2-aside { position: static !important; }
+          /* Progress indicator labels */
+          .box-progress-label { font-size: 9px !important; }
+          .box-progress-line { width: 32px !important; }
+          /* Step 1 back/continue row */
+          .box-nav-row { flex-direction: column !important; gap: 12px !important; }
+          .box-nav-row button { width: 100% !important; padding: 0 24px !important; }
+        }
+      `}</style>
     </>
   );
 }
