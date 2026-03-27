@@ -115,10 +115,11 @@ export function HeroSection() {
           overflow: 'hidden',
           background: 'var(--bg-surface)',
         }}
-        className="hero-right"
+        className="hero-right hero-image-container"
       >
         {/* Gradient overlay on left edge */}
         <div
+          className="hero-overlay"
           style={{
             position: 'absolute',
             left: 0,
@@ -154,17 +155,35 @@ export function HeroSection() {
       </div>
 
       <style>{`
-        @media (max-width: 767px) {
-          section { flex-direction: column-reverse !important; min-height: auto !important; }
-          .hero-left { width: 100% !important; padding: 40px 24px 60px !important; order: 2; }
-          .hero-right { width: 100% !important; min-height: 60vw !important; height: 60vw !important; order: 1; }
-          .hero-left .gradient-edge { display: none !important; }
+        /* Mobile: image becomes full-bleed background, text overlaid */
+        @media (max-width: 1023px) {
+          section { position: relative !important; flex-direction: column !important; min-height: 100svh !important; }
+          .hero-image-container {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 0 !important;
+          }
+          .hero-overlay {
+            width: 100% !important;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,0.95) 100%) !important;
+          }
+          .hero-left {
+            position: relative !important;
+            z-index: 1 !important;
+            width: 100% !important;
+            padding: 120px 24px 60px !important;
+            justify-content: flex-end !important;
+            min-height: 100svh !important;
+          }
           .hero-ctas { flex-direction: column !important; }
           .hero-ctas a { width: 100% !important; justify-content: center !important; }
         }
-        @media (min-width: 768px) and (max-width: 1023px) {
-          .hero-left { width: 50% !important; padding: 80px 40px !important; }
-          .hero-right { width: 50% !important; }
+        @media (min-width: 1024px) {
+          .hero-left { width: 45% !important; }
+          .hero-image-container { width: 55% !important; position: relative !important; height: auto !important; }
+          .hero-overlay { width: 120px !important; background: linear-gradient(90deg, var(--bg-primary) 0%, transparent 100%) !important; }
         }
       `}</style>
     </section>

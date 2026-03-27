@@ -31,7 +31,7 @@ export const SORT_OPTIONS = [
   { label: 'A–Z', value: 'az' },
 ];
 
-export const PRODUCTS_PER_PAGE = 8;
+export const PRODUCTS_PER_PAGE = 12;
 
 export const STORE_INFO = {
   name: 'Emrickscents Flagship Boutique',

@@ -455,18 +455,10 @@ export default function BuildYourBox() {
 
             {/* ─── STEP 2: ORDER SUMMARY ───────────────── */}
             {step === 2 && (
-              <div className="box-step2-grid" style={{
-                display: 'grid',
-                gridTemplateColumns: '7fr 5fr',
-                gap: '4rem',
-                alignItems: 'start',
-                maxWidth: '1200px',
-                margin: '0 auto',
-                padding: '0 48px 96px',
-              }}>
+              <div className="box-step3-grid">
 
                 {/* LEFT COLUMN */}
-                <div>
+                <div style={{ minWidth: 0, overflow: 'hidden', width: '100%' }}>
                   {/* Header row */}
                   <div style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -481,30 +473,32 @@ export default function BuildYourBox() {
                     </button>
                   </div>
 
-                  {/* Products 3-column grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                    {selected.map(p => (
-                      <div key={p.id} style={{
+                  {/* Products grid */}
+                  <div className="box-products-grid">
+                    {selected.map((p, index) => (
+                      <div key={p.id || index} style={{
                         background: 'var(--bg-surface)',
-                        padding: '16px',
-                        aspectRatio: '3/4',
+                        padding: '12px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                         textAlign: 'center',
+                        minWidth: 0,
+                        overflow: 'hidden',
                       }}>
                         <img
                           src={p.images?.[0] || p.image}
                           alt={p.name}
-                          className="product-box-img"
+                          style={{ width: '72px', height: '72px', objectFit: 'contain', marginBottom: '8px', filter: 'grayscale(80%)' }}
+                          onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.style.display = 'none'; }}
                         />
-                        <p style={{ fontFamily: 'var(--font-label)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                          {p.type || 'Eau de Parfum'}
-                        </p>
-                        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '14px', fontStyle: 'italic', color: 'var(--gold)', lineHeight: 1.2 }}>
+                        <span style={{ fontFamily: 'var(--font-label)', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>
+                          {p.type || 'EAU DE PARFUM'}
+                        </span>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '12px', fontStyle: 'italic', color: 'var(--gold)', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%' }}>
                           {p.name}
-                        </p>
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -522,7 +516,7 @@ export default function BuildYourBox() {
                         EDIT
                       </button>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                    <div className="box-personalisation-grid">
                       <div>
                         <p style={{ fontFamily: 'var(--font-label)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--gold-muted)', marginBottom: '8px' }}>SELECTED RIBBON</p>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -541,9 +535,9 @@ export default function BuildYourBox() {
                 </div>
 
                 {/* RIGHT COLUMN — sticky */}
-                <aside className="box-step2-aside" style={{ position: 'sticky', top: '96px', minWidth: 0 }}>
+                <aside className="box-summary-aside">
                   {/* Summary card */}
-                  <div style={{ background: '#2A2A2A', padding: '32px', position: 'relative', overflow: 'hidden' }}>
+                  <div className="box-summary-card">
 
                     {/* Gold glow blob */}
                     <div style={{ position: 'absolute', top: 0, right: '40px', width: '64px', height: '80px', background: 'var(--gold)', opacity: 0.1, filter: 'blur(24px)', pointerEvents: 'none' }} />
@@ -582,13 +576,7 @@ export default function BuildYourBox() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={handleWhatsAppCheckout}
-                      style={{
-                        width: '100%', height: 'auto', minHeight: '52px', background: '#25D366', color: '#fff',
-                        fontFamily: 'var(--font-label)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em',
-                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        gap: '10px', marginBottom: '12px', textDecoration: 'none', borderRadius: '0', border: 'none',
-                        padding: '14px 20px', whiteSpace: 'nowrap', overflow: 'hidden',
-                      }}
+                      className="box-action-btn box-btn-whatsapp"
                     >
                       <FiMessageCircle size={16} />
                       COMPLETE ORDER VIA WHATSAPP
@@ -597,19 +585,16 @@ export default function BuildYourBox() {
                     {/* Add Box to Cart button */}
                     <button
                       onClick={handleAddBoxToCart}
+                      className="box-action-btn box-btn-cart"
                       style={{
-                        width: '100%', height: 'auto', minHeight: '48px', background: 'transparent',
-                        border: boxAddedSuccess ? '1px solid var(--gold)' : '1px solid var(--gold-border)',
-                        color: boxAddedSuccess ? 'var(--gold)' : 'var(--text-secondary)',
-                        fontFamily: 'var(--font-label)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.15em',
-                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        gap: '8px', marginBottom: '32px', borderRadius: '0', transition: 'border-color 0.25s ease, color 0.25s ease',
-                        padding: '12px 20px', whiteSpace: 'nowrap', overflow: 'hidden',
+                        borderColor: boxAddedSuccess ? 'var(--gold)' : undefined,
+                        color: boxAddedSuccess ? 'var(--gold)' : undefined,
+                        marginBottom: '32px',
                       }}
                       onMouseEnter={(e) => { if (!boxAddedSuccess) { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--text-primary)'; } }}
                       onMouseLeave={(e) => { if (!boxAddedSuccess) { e.currentTarget.style.borderColor = 'var(--gold-border)'; e.currentTarget.style.color = 'var(--text-secondary)'; } }}
                     >
-                      <FiShoppingBag size={16} style={{ color: boxAddedSuccess ? 'var(--gold)' : 'var(--gold)' }} />
+                      <FiShoppingBag size={16} style={{ color: 'var(--gold)' }} />
                       {boxAddedSuccess ? 'BOX ADDED TO CART ✓' : 'ADD BOX TO CART'}
                     </button>
 
@@ -642,20 +627,14 @@ export default function BuildYourBox() {
       <Footer variant="full" />
 
       <style>{`
-        /* Box product selection grid */
+        /* Box product selection grid (step 0) */
         @media (max-width: 1023px) { .box-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 767px) {
           .box-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
           .box-step0-padding { padding: 0 24px 60px !important; }
-          /* Step 1 personalise */
           .box-step1-padding { padding-bottom: 60px !important; }
-          /* Step 2 order layout — stack */
-          .box-step2-grid { grid-template-columns: 1fr !important; padding: 0 24px 60px !important; }
-          .box-step2-aside { position: static !important; }
-          /* Progress indicator labels */
           .box-progress-label { font-size: 9px !important; }
           .box-progress-line { width: 32px !important; }
-          /* Step 1 back/continue row */
           .box-nav-row { flex-direction: column !important; gap: 12px !important; }
           .box-nav-row button { width: 100% !important; padding: 0 24px !important; }
         }

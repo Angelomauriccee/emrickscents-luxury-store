@@ -58,7 +58,7 @@ export function FilterBar({ totalCount, viewMode, onViewChange, onOpenDrawer }: 
       <div className="container-content">
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between', flexWrap: 'wrap' }}>
           {/* Pill strip */}
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '2px', flexShrink: 0 }}>
+          <div className="filter-pills-row" style={{ display: 'flex', gap: '8px', overflowX: 'auto', scrollbarWidth: 'none', paddingBottom: '4px', flexShrink: 0 }}>
             <button
               onClick={() => handlePillClick(FILTER_PILLS[0])}
               className={`filter-pill ${isAllActive ? 'active' : ''}`}

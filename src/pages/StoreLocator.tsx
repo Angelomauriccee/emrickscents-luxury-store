@@ -99,7 +99,7 @@ export default function StoreLocator() {
                 OUR ONLY LOCATION
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: '32px', columnGap: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: '32px', columnGap: '24px', marginBottom: '40px' }}>
                 {/* Cell 1: ADDRESS */}
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>

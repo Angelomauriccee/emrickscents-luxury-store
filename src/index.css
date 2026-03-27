@@ -580,3 +580,135 @@ button {
 .product-box-img:hover {
   filter: grayscale(0%);
 }
+
+/* BuildYourBox — Step 3 responsive grid layout */
+.box-step3-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24px 16px;
+}
+
+@media (min-width: 1024px) {
+  .box-step3-grid {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 48px;
+    padding: 0 48px 96px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+}
+
+/* Products grid inside Step 3 */
+.box-products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  .box-products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .box-products-grid {
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+}
+
+/* Personalisation summary grid */
+.box-personalisation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .box-personalisation-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Summary aside — static on mobile, sticky on desktop */
+.box-summary-aside {
+  position: static;
+}
+
+@media (min-width: 1024px) {
+  .box-summary-aside {
+    position: sticky;
+    top: 96px;
+    align-self: flex-start;
+  }
+}
+
+/* Summary card */
+.box-summary-card {
+  padding: 24px;
+  background: #2a2a2a;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .box-summary-card {
+    padding: 32px;
+  }
+}
+
+/* Action buttons in summary card */
+.box-action-btn {
+  width: 100%;
+  min-height: 52px;
+  height: auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.box-btn-whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  margin-bottom: 12px;
+}
+
+.box-btn-cart {
+  background: transparent;
+  border: 1px solid var(--gold-border);
+  color: var(--text-secondary);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.box-btn-cart:hover {
+  border-color: var(--gold);
+  color: var(--text-primary);
+}
+
+/* Filter pills horizontal scroll on mobile */
+.filter-pills-row::-webkit-scrollbar {
+  display: none;
+}

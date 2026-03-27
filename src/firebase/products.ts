@@ -24,8 +24,8 @@ export async function getProducts(
     brand = null,
     collection: col = null,
     isNew = null,
-    sortBy = "createdAt",
-    sortDir = "desc",
+    sortBy = "name",
+    sortDir = "asc",
     pageSize = PRODUCTS_PER_PAGE,
     lastDoc = null,
   } = options;
