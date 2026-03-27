@@ -29,15 +29,10 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const { activeFilters, setFilter, clearFilters } = useFilters();
 
-  // Set initial off-screen position without animation on mount
+  // Set initial off-screen position on mount
   useEffect(() => {
-    const drawer = drawerRef.current;
-    if (!drawer) return;
-    const isMobile = window.innerWidth < 1024;
-    if (isMobile) {
-      gsap.set(drawer, { y: '100%', x: 0 });
-    } else {
-      gsap.set(drawer, { x: '100%', y: 0 });
+    if (drawerRef.current) {
+      gsap.set(drawerRef.current, { x: '100%', y: 0 });
     }
   }, []);
 
@@ -46,23 +41,13 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
     const overlay = overlayRef.current;
     if (!drawer || !overlay) return;
 
-    const isMobile = window.innerWidth < 1024;
-
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      if (isMobile) {
-        gsap.to(drawer, { y: 0, duration: 0.4, ease: 'power2.out' });
-      } else {
-        gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
-      }
+      gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
       gsap.to(overlay, { opacity: 0.6, duration: 0.4 });
     } else {
       document.body.style.overflow = '';
-      if (isMobile) {
-        gsap.to(drawer, { y: '100%', duration: 0.35, ease: 'power2.in' });
-      } else {
-        gsap.to(drawer, { x: '100%', duration: 0.35, ease: 'power2.in' });
-      }
+      gsap.to(drawer, { x: '100%', duration: 0.35, ease: 'power2.in' });
       gsap.to(overlay, { opacity: 0, duration: 0.35 });
     }
   }, [isOpen]);
@@ -91,34 +76,17 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           position: 'fixed',
           top: 0,
           right: 0,
-          bottom: 0,
-          width: '100%',
-          maxWidth: '380px',
+          height: '100vh',
+          width: '380px',
+          maxWidth: '100vw',
           background: 'var(--bg-elevated)',
           borderLeft: '1px solid var(--bg-border)',
           zIndex: 201,
           display: 'flex',
           flexDirection: 'column',
+          overflowY: 'auto',
         }}
       >
-      <style>{`
-        @media (max-width: 1023px) {
-          .filter-drawer {
-            top: auto !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            max-width: 100% !important;
-            width: 100% !important;
-            height: 85vh !important;
-            border-left: none !important;
-            border-top: 1px solid var(--bg-border) !important;
-            border-radius: 12px 12px 0 0 !important;
-          }
-        }
-      `}</style>
-        {/* Drag handle — mobile only */}
-        <div style={{ width: '40px', height: '4px', background: 'var(--bg-border)', borderRadius: '2px', margin: '12px auto 0' }} />
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid var(--bg-border)', flexShrink: 0 }}>
           <span className="text-label" style={{ color: 'var(--text-primary)' }}>FILTER</span>
