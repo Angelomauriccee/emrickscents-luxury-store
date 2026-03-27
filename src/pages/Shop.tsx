@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FilterBar } from '../components/ui/FilterBar';
 import { FilterDrawer } from '../components/ui/FilterDrawer';
 import { ProductCard } from '../components/ui/ProductCard';
 import { SkeletonCard } from '../components/ui/SkeletonCard';
@@ -10,12 +9,12 @@ import { Footer } from '../components/layout/Footer';
 import { FilterProvider, useFilters } from '../context/FilterContext';
 import { getProducts } from '../firebase/products';
 import { Product } from '../types';
-import { PRODUCTS_PER_PAGE } from '../utils/constants';
+import { PRODUCTS_PER_PAGE, FILTER_PILLS } from '../utils/constants';
 import { formatPrice } from '../utils/formatPrice';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import gsap from 'gsap';
-import { FiShoppingBag } from 'react-icons/fi';
+import { FiShoppingBag, FiGrid, FiList, FiSliders } from 'react-icons/fi';
 
 // Price range helper
 function matchesPriceRange(price: number, range: string | null): boolean {
@@ -93,7 +92,7 @@ function ProductListRow({ product }: { product: Product }) {
 }
 
 function ShopContent() {
-  const { activeFilters } = useFilters();
+  const { activeFilters, setFilter } = useFilters();
   const [searchParams, setSearchParams] = useSearchParams();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -110,6 +109,38 @@ function ShopContent() {
       case 'price_desc': return { sortBy: 'price', sortDir: 'desc' as const };
       case 'az': return { sortBy: 'name', sortDir: 'asc' as const };
       default: return { sortBy: 'name', sortDir: 'asc' as const };
+    }
+  };
+
+  const isActivePill = (pill: typeof FILTER_PILLS[0]) => {
+    if (!pill.param) {
+      return !activeFilters.category && !activeFilters.collection && !activeFilters.isNew;
+    }
+    if (pill.param === 'category') return activeFilters.category === pill.value;
+    if (pill.param === 'collection') return activeFilters.collection === pill.value;
+    if (pill.param === 'isNew') return !!activeFilters.isNew;
+    return false;
+  };
+
+  const handleFilterPill = (pill: typeof FILTER_PILLS[0]) => {
+    if (!pill.param) {
+      setFilter('category', null);
+      setFilter('collection', null);
+      setFilter('isNew', null);
+      return;
+    }
+    if (pill.param === 'category') {
+      setFilter('category', pill.value as string);
+      setFilter('collection', null);
+      setFilter('isNew', null);
+    } else if (pill.param === 'collection') {
+      setFilter('collection', pill.value as string);
+      setFilter('category', null);
+      setFilter('isNew', null);
+    } else if (pill.param === 'isNew') {
+      setFilter('isNew', true);
+      setFilter('category', null);
+      setFilter('collection', null);
     }
   };
 
@@ -220,12 +251,75 @@ function ShopContent() {
       </div>
 
       {/* Filter bar */}
-      <FilterBar
-        totalCount={loading ? undefined : totalCount}
-        viewMode={viewMode}
-        onViewChange={setViewMode}
-        onOpenDrawer={() => setDrawerOpen(true)}
-      />
+      <div className="filter-bar">
+        <div className="filter-pills-wrapper">
+          <div className="filter-pills-row">
+            {FILTER_PILLS.map((pill) => (
+              <button
+                key={pill.label}
+                onClick={() => handleFilterPill(pill)}
+                style={{
+                  background: isActivePill(pill) ? 'var(--gold)' : 'var(--bg-surface)',
+                  color: isActivePill(pill) ? 'var(--bg-primary)' : 'var(--text-secondary)',
+                  border: isActivePill(pill) ? 'none' : '1px solid var(--bg-border)',
+                  fontFamily: 'var(--font-label)',
+                  fontSize: '10px',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  padding: '8px 16px',
+                  borderRadius: 0,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {pill.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-controls-row">
+          <span className="filter-count-label" style={{ fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+            {loading ? '...' : `${totalCount} FRAGRANCES`}
+          </span>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginLeft: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>SORT BY</span>
+              <select
+                value={activeFilters.sortBy}
+                onChange={(e) => setFilter('sortBy', e.target.value)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer', outline: 'none' }}
+              >
+                <option value="newest" style={{ background: 'var(--bg-elevated)' }}>NEWEST FIRST</option>
+                <option value="price_asc" style={{ background: 'var(--bg-elevated)' }}>PRICE: LOW TO HIGH</option>
+                <option value="price_desc" style={{ background: 'var(--bg-elevated)' }}>PRICE: HIGH TO LOW</option>
+                <option value="az" style={{ background: 'var(--bg-elevated)' }}>A–Z</option>
+              </select>
+            </div>
+
+            <div className="filter-grid-toggle" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button onClick={() => setViewMode('grid')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: viewMode === 'grid' ? 'var(--gold)' : 'var(--text-muted)', padding: '4px' }}>
+                <FiGrid size={16} />
+              </button>
+              <button onClick={() => setViewMode('list')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: viewMode === 'list' ? 'var(--gold)' : 'var(--text-muted)', padding: '4px' }}>
+                <FiList size={16} />
+              </button>
+            </div>
+
+            <button
+              onClick={() => setDrawerOpen(true)}
+              style={{ background: 'transparent', border: '1px solid var(--bg-border)', color: 'var(--text-secondary)', fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '8px 16px', borderRadius: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s ease', whiteSpace: 'nowrap' }}
+            >
+              <FiSliders size={12} />
+              FILTER
+            </button>
+          </div>
+        </div>
+      </div>
+
       <FilterDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} brands={allBrands} />
 
       {/* Content */}
@@ -274,9 +368,6 @@ function ShopContent() {
         @media (max-width: 767px) {
           .shop-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
           .shop-content-padding { padding: 32px 24px !important; }
-          .filter-bar-controls { display: none !important; }
-          .filter-bar-inner { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 4px !important; }
-          .shop-list-row-btn { display: none !important; }
         }
       `}</style>
     </>

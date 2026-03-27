@@ -708,7 +708,75 @@ button {
   color: var(--text-primary);
 }
 
-/* Filter pills horizontal scroll on mobile */
+/* ===== Filter bar ===== */
+.filter-bar {
+  position: sticky;
+  top: 72px;
+  z-index: 100;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.filter-pills-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-pills-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-wrap: nowrap;
+}
+
 .filter-pills-row::-webkit-scrollbar {
   display: none;
+}
+
+@media (max-width: 1023px) {
+  .filter-pills-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    background: linear-gradient(to right, transparent, var(--bg-primary));
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .filter-pills-row {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding: 16px 48px;
+    gap: 10px;
+  }
+}
+
+.filter-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px 12px;
+  border-top: 1px solid var(--gold-line);
+  gap: 12px;
+}
+
+@media (min-width: 1024px) {
+  .filter-controls-row {
+    padding: 8px 48px 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .filter-count-label { display: none; }
+  .filter-grid-toggle { display: none; }
 }
