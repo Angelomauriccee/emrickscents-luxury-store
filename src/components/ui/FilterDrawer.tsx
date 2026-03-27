@@ -1,7 +1,7 @@
-import { useRef, useEffect } from 'react';
-import { FiX } from 'react-icons/fi';
-import { useFilters } from '../../context/FilterContext';
-import gsap from 'gsap';
+import { useRef, useEffect } from "react";
+import { FiX } from "react-icons/fi";
+import { useFilters } from "../../context/FilterContext";
+import gsap from "gsap";
 
 interface FilterDrawerProps {
   isOpen: boolean;
@@ -9,20 +9,51 @@ interface FilterDrawerProps {
   brands: string[];
 }
 
-const SIZE_OPTIONS = ['25ml', '30ml', '50ml', '55ml', '75ml', '80ml', '100ml', '105ml', '150ml', '200ml'];
-
-const PRICE_RANGES = [
-  { label: 'Under ₦100,000', value: 'under-100k' },
-  { label: '₦100,000 – ₦300,000', value: '100k-300k' },
-  { label: '₦300,000 – ₦500,000', value: '300k-500k' },
-  { label: 'Above ₦500,000', value: 'above-500k' },
+const SIZE_OPTIONS = [
+  "25ml",
+  "30ml",
+  "50ml",
+  "55ml",
+  "75ml",
+  "80ml",
+  "100ml",
+  "105ml",
+  "150ml",
+  "200ml",
 ];
 
-const sectionStyle: React.CSSProperties = { marginBottom: '32px', flexShrink: 0 };
-const labelStyle: React.CSSProperties = { color: 'var(--text-secondary)', marginBottom: '16px' };
-const checkLabelStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', marginBottom: '10px' };
-const checkboxStyle: React.CSSProperties = { accentColor: 'var(--gold)', width: '14px', height: '14px', flexShrink: 0 };
-const checkTextStyle: React.CSSProperties = { color: 'var(--text-secondary)', fontSize: '14px' };
+const PRICE_RANGES = [
+  { label: "Under ₦100,000", value: "under-100k" },
+  { label: "₦100,000 – ₦300,000", value: "100k-300k" },
+  { label: "₦300,000 – ₦500,000", value: "300k-500k" },
+  { label: "Above ₦500,000", value: "above-500k" },
+];
+
+const sectionStyle: React.CSSProperties = {
+  marginBottom: "32px",
+  flexShrink: 0,
+};
+const labelStyle: React.CSSProperties = {
+  color: "var(--text-secondary)",
+  marginBottom: "16px",
+};
+const checkLabelStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  cursor: "pointer",
+  marginBottom: "10px",
+};
+const checkboxStyle: React.CSSProperties = {
+  accentColor: "var(--gold)",
+  width: "14px",
+  height: "14px",
+  flexShrink: 0,
+};
+const checkTextStyle: React.CSSProperties = {
+  color: "var(--text-secondary)",
+  fontSize: "14px",
+};
 
 export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +63,7 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
   // Set initial off-screen position on mount
   useEffect(() => {
     if (drawerRef.current) {
-      gsap.set(drawerRef.current, { x: '100%', y: 0 });
+      gsap.set(drawerRef.current, { x: "100%", y: 0 });
     }
   }, []);
 
@@ -44,21 +75,21 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
     if (isOpen) {
       // Lock page scroll (works on iOS Safari too)
       const scrollY = window.scrollY;
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-      gsap.to(drawer, { x: 0, duration: 0.4, ease: 'power2.out' });
+      document.body.style.width = "100%";
+      gsap.to(drawer, { x: 0, duration: 0.4, ease: "power2.out" });
       gsap.to(overlay, { opacity: 0.6, duration: 0.4 });
     } else {
       // Restore scroll position
-      const scrollY = parseFloat(document.body.style.top || '0') * -1;
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
+      const scrollY = parseFloat(document.body.style.top || "0") * -1;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       window.scrollTo(0, scrollY);
-      gsap.to(drawer, { x: '100%', duration: 0.35, ease: 'power2.in' });
+      gsap.to(drawer, { x: "100%", duration: 0.35, ease: "power2.in" });
       gsap.to(overlay, { opacity: 0, duration: 0.35 });
     }
   }, [isOpen]);
@@ -70,12 +101,12 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
         ref={overlayRef}
         onClick={onClose}
         style={{
-          position: 'fixed',
+          position: "fixed",
           inset: 0,
-          background: '#000',
+          background: "#000",
           zIndex: 200,
           opacity: 0,
-          pointerEvents: isOpen ? 'all' : 'none',
+          pointerEvents: isOpen ? "all" : "none",
         }}
       />
 
@@ -84,101 +115,149 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
         ref={drawerRef}
         className="filter-drawer"
         style={{
-          position: 'fixed',
+          position: "fixed",
           top: 0,
           right: 0,
-          height: '100dvh',
-          width: '380px',
-          maxWidth: '100vw',
-          background: 'var(--bg-elevated)',
-          borderLeft: '1px solid var(--bg-border)',
+          height: "91vh",
+          width: "380px",
+          maxWidth: "100vw",
+          background: "var(--bg-elevated)",
+          borderLeft: "1px solid var(--bg-border)",
           zIndex: 201,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
         }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', borderBottom: '1px solid var(--bg-border)', flexShrink: 0 }}>
-          <span className="text-label" style={{ color: 'var(--text-primary)' }}>FILTER</span>
-          <button onClick={onClose} style={{ color: 'var(--text-secondary)', padding: '4px', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "24px",
+            borderBottom: "1px solid var(--bg-border)",
+            flexShrink: 0,
+          }}
+        >
+          <span className="text-label" style={{ color: "var(--text-primary)" }}>
+            FILTER
+          </span>
+          <button
+            onClick={onClose}
+            style={{
+              color: "var(--text-secondary)",
+              padding: "4px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             <FiX size={20} />
           </button>
         </div>
 
         {/* Scrollable Content Area */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '24px', minHeight: 0 }}>
-
+        <div
+          style={{ flex: 1, overflowY: "auto", padding: "24px", minHeight: 0 }}
+        >
           {/* Brand */}
           <div style={sectionStyle}>
-            <p className="text-label" style={labelStyle}>BRAND</p>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <p className="text-label" style={labelStyle}>
+              BRAND
+            </p>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <label style={checkLabelStyle}>
                 <input
                   type="checkbox"
                   checked={!activeFilters.brand}
-                  onChange={() => setFilter('brand', null)}
+                  onChange={() => setFilter("brand", null)}
                   style={checkboxStyle}
                 />
                 <span style={checkTextStyle}>All</span>
               </label>
-              {brands.filter(b => b.trim() !== '').map((brand) => (
-                <label key={brand} style={checkLabelStyle}>
-                  <input
-                    type="checkbox"
-                    checked={activeFilters.brand === brand}
-                    onChange={() => setFilter('brand', activeFilters.brand === brand ? null : brand)}
-                    style={checkboxStyle}
-                  />
-                  <span style={checkTextStyle}>{brand}</span>
-                </label>
-              ))}
+              {brands
+                .filter((b) => b.trim() !== "")
+                .map((brand) => (
+                  <label key={brand} style={checkLabelStyle}>
+                    <input
+                      type="checkbox"
+                      checked={activeFilters.brand === brand}
+                      onChange={() =>
+                        setFilter(
+                          "brand",
+                          activeFilters.brand === brand ? null : brand,
+                        )
+                      }
+                      style={checkboxStyle}
+                    />
+                    <span style={checkTextStyle}>{brand}</span>
+                  </label>
+                ))}
             </div>
           </div>
 
           {/* Divider */}
-          <div style={{ borderTop: '1px solid var(--bg-border)', marginBottom: '32px' }} />
+          <div
+            style={{
+              borderTop: "1px solid var(--bg-border)",
+              marginBottom: "32px",
+            }}
+          />
 
           {/* FOR */}
           <div style={sectionStyle}>
-            <p className="text-label" style={labelStyle}>FOR</p>
-            {['men', 'women', 'unisex'].map((cat) => (
+            <p className="text-label" style={labelStyle}>
+              FOR
+            </p>
+            {["men", "women", "unisex"].map((cat) => (
               <label key={cat} style={checkLabelStyle}>
                 <input
                   type="radio"
                   name="category"
                   checked={activeFilters.category === cat}
-                  onChange={() => setFilter('category', cat)}
+                  onChange={() => setFilter("category", cat)}
                   style={checkboxStyle}
                 />
-                <span style={{ ...checkTextStyle, textTransform: 'capitalize' }}>{cat}</span>
+                <span
+                  style={{ ...checkTextStyle, textTransform: "capitalize" }}
+                >
+                  {cat}
+                </span>
               </label>
             ))}
           </div>
 
           {/* Divider */}
-          <div style={{ borderTop: '1px solid var(--bg-border)', marginBottom: '32px' }} />
+          <div
+            style={{
+              borderTop: "1px solid var(--bg-border)",
+              marginBottom: "32px",
+            }}
+          />
 
           {/* Size */}
           <div style={sectionStyle}>
-            <p className="text-label" style={labelStyle}>SIZE</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <p className="text-label" style={labelStyle}>
+              SIZE
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
               {SIZE_OPTIONS.map((size) => {
                 const isActive = activeFilters.size === size;
                 return (
                   <button
                     key={size}
-                    onClick={() => setFilter('size', isActive ? null : size)}
+                    onClick={() => setFilter("size", isActive ? null : size)}
                     style={{
-                      padding: '6px 14px',
-                      border: `1px solid ${isActive ? 'var(--gold)' : 'var(--bg-border)'}`,
-                      background: isActive ? 'var(--gold-glow)' : 'transparent',
-                      color: isActive ? 'var(--gold)' : 'var(--text-secondary)',
-                      fontFamily: 'var(--font-label)',
-                      fontSize: '11px',
-                      letterSpacing: '0.1em',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
+                      padding: "6px 14px",
+                      border: `1px solid ${isActive ? "var(--gold)" : "var(--bg-border)"}`,
+                      background: isActive ? "var(--gold-glow)" : "transparent",
+                      color: isActive ? "var(--gold)" : "var(--text-secondary)",
+                      fontFamily: "var(--font-label)",
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
                       borderRadius: 0,
                     }}
                   >
@@ -190,11 +269,18 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           </div>
 
           {/* Divider */}
-          <div style={{ borderTop: '1px solid var(--bg-border)', marginBottom: '32px' }} />
+          <div
+            style={{
+              borderTop: "1px solid var(--bg-border)",
+              marginBottom: "32px",
+            }}
+          />
 
           {/* Price Range */}
           <div style={sectionStyle}>
-            <p className="text-label" style={labelStyle}>PRICE RANGE</p>
+            <p className="text-label" style={labelStyle}>
+              PRICE RANGE
+            </p>
             {PRICE_RANGES.map((range) => {
               const isActive = activeFilters.priceRange === range.value;
               return (
@@ -203,7 +289,9 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
                     type="radio"
                     name="priceRange"
                     checked={isActive}
-                    onChange={() => setFilter('priceRange', isActive ? null : range.value)}
+                    onChange={() =>
+                      setFilter("priceRange", isActive ? null : range.value)
+                    }
                     style={checkboxStyle}
                   />
                   <span style={checkTextStyle}>{range.label}</span>
@@ -213,35 +301,70 @@ export function FilterDrawer({ isOpen, onClose, brands }: FilterDrawerProps) {
           </div>
 
           {/* Divider */}
-          <div style={{ borderTop: '1px solid var(--bg-border)', marginBottom: '32px' }} />
+          <div
+            style={{
+              borderTop: "1px solid var(--bg-border)",
+              marginBottom: "32px",
+            }}
+          />
 
           {/* Collection */}
           <div style={sectionStyle}>
-            <p className="text-label" style={labelStyle}>COLLECTION</p>
-            {[{ label: 'Signature', value: 'signature' }, { label: 'Limited Edition', value: 'limited' }].map((col) => (
+            <p className="text-label" style={labelStyle}>
+              COLLECTION
+            </p>
+            {[
+              { label: "Signature", value: "signature" },
+              { label: "Limited Edition", value: "limited" },
+            ].map((col) => (
               <label key={col.value} style={checkLabelStyle}>
                 <input
                   type="checkbox"
                   checked={activeFilters.collection === col.value}
-                  onChange={() => setFilter('collection', activeFilters.collection === col.value ? null : col.value)}
+                  onChange={() =>
+                    setFilter(
+                      "collection",
+                      activeFilters.collection === col.value ? null : col.value,
+                    )
+                  }
                   style={checkboxStyle}
                 />
                 <span style={checkTextStyle}>{col.label}</span>
               </label>
             ))}
+          </div>
 
-            {/* Actions */}
-            <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
-              <button
-                onClick={() => { clearFilters(); onClose(); }}
-                style={{ color: 'var(--text-muted)', fontSize: '13px', fontFamily: 'var(--font-ui)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
-              >
-                Clear All
-              </button>
-              <button className="btn-primary btn-full" onClick={onClose}>
-                APPLY FILTERS
-              </button>
-            </div>
+          {/* Divider */}
+          <div
+            style={{
+              borderTop: "1px solid var(--bg-border)",
+              marginBottom: "32px",
+            }}
+          />
+
+          {/* Actions */}
+          <div style={{ display: "flex", gap: "16px", marginBottom: "32px" }}>
+            <button
+              onClick={() => {
+                clearFilters();
+                onClose();
+              }}
+              style={{
+                color: "var(--text-muted)",
+                fontSize: "13px",
+                fontFamily: "var(--font-ui)",
+                textDecoration: "underline",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Clear All
+            </button>
+            <button className="btn-primary btn-full" onClick={onClose}>
+              APPLY FILTERS
+            </button>
           </div>
         </div>
       </div>
