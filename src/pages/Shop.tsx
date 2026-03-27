@@ -14,7 +14,7 @@ import { formatPrice } from '../utils/formatPrice';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import gsap from 'gsap';
-import { FiShoppingBag, FiGrid, FiList, FiSliders } from 'react-icons/fi';
+import { FiShoppingBag, FiGrid, FiList, FiSliders, FiChevronDown } from 'react-icons/fi';
 
 // Price range helper
 function matchesPriceRange(price: number, range: string | null): boolean {
@@ -286,18 +286,21 @@ function ShopContent() {
           </span>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginLeft: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>SORT BY</span>
-              <select
-                value={activeFilters.sortBy}
-                onChange={(e) => setFilter('sortBy', e.target.value)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer', outline: 'none' }}
-              >
-                <option value="newest" style={{ background: 'var(--bg-elevated)' }}>NEWEST FIRST</option>
-                <option value="price_asc" style={{ background: 'var(--bg-elevated)' }}>PRICE: LOW TO HIGH</option>
-                <option value="price_desc" style={{ background: 'var(--bg-elevated)' }}>PRICE: HIGH TO LOW</option>
-                <option value="az" style={{ background: 'var(--bg-elevated)' }}>A–Z</option>
-              </select>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <span style={{ fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>SORT BY :</span>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <select
+                  value={activeFilters.sortBy}
+                  onChange={(e) => setFilter('sortBy', e.target.value)}
+                  style={{ appearance: 'none', WebkitAppearance: 'none', background: 'transparent', border: 'none', color: 'var(--text-primary)', fontFamily: 'var(--font-label)', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer', outline: 'none', paddingRight: '20px' }}
+                >
+                  <option value="newest" style={{ background: '#111111', color: '#f0ebe0' }}>NEWEST FIRST</option>
+                  <option value="price_asc" style={{ background: '#111111', color: '#f0ebe0' }}>PRICE: LOW TO HIGH</option>
+                  <option value="price_desc" style={{ background: '#111111', color: '#f0ebe0' }}>PRICE: HIGH TO LOW</option>
+                  <option value="az" style={{ background: '#111111', color: '#f0ebe0' }}>A – Z</option>
+                </select>
+                <FiChevronDown size={12} style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', color: 'var(--gold)', pointerEvents: 'none' }} />
+              </div>
             </div>
 
             <div className="filter-grid-toggle" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
