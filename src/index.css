@@ -780,3 +780,75 @@ button {
   .filter-count-label { display: none; }
   .filter-grid-toggle { display: none; }
 }
+
+/* ===========================
+   BRANDS SECTION
+   =========================== */
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 480px) {
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .brands-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .brands-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+}
+
+.brand-item {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  padding: 8px 4px;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.brand-item:hover {
+  color: var(--gold);
+}
+
+@media (min-width: 1024px) {
+  .brand-item {
+    font-size: 24px;
+    padding: 0 28px;
+    position: relative;
+  }
+
+  .brand-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 1px;
+    background: var(--gold-line);
+  }
+}

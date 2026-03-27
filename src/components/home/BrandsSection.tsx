@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BRANDS } from "../../utils/constants";
@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function BrandsSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -20,102 +19,61 @@ export function BrandsSection() {
         stagger: 0.05,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 85%",
+          start: "top 95%",
           once: true,
         },
       });
     }, sectionRef);
-    return () => ctx.revert();
+
+    // Fallback — if ScrollTrigger doesn't fire, show after 1s
+    const fallbackTimer = setTimeout(() => {
+      gsap.utils.toArray<HTMLElement>(".brand-item").forEach((el) => {
+        gsap.set(el, { opacity: 1, y: 0 });
+      });
+    }, 1000);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
       style={{
-        padding: "80px 0",
-        borderTop: "1px solid var(--bg-border)",
-        borderBottom: "1px solid var(--bg-border)",
+        padding: "60px 24px",
+        borderTop: "1px solid var(--gold-line)",
+        borderBottom: "1px solid var(--gold-line)",
+        background: "var(--bg-primary)",
+        overflow: "hidden",
       }}
     >
-      <div className="container-content">
-        <p
-          className="text-label"
-          style={{
-            color: "var(--text-muted)",
-            textAlign: "center",
-            marginBottom: "40px",
-          }}
-        >
-          ICONIC HOUSES
-        </p>
-        <div
-          className="brands-scroll"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "nowrap",
-            gap: "0",
-            overflowX: "auto",
-            scrollbarWidth: "none",
-            paddingBottom: "8px",
-          }}
-        >
-          {BRANDS.map((brand, index) => (
-            <span
-              key={brand}
-              style={{ display: "flex", alignItems: "center", flexShrink: 0 }}
-            >
-              {index > 0 && (
-                <span
-                  style={{
-                    width: "-10px",
-                    height: "12px",
-                    background: "var(--bg-border)",
-                    margin: "0 24px",
-                  }}
-                />
-              )}
-              <button
-                className="brand-item"
-                onClick={() =>
-                  navigate(`/shop?brand=${encodeURIComponent(brand)}`)
-                }
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 300,
-                  fontSize: "20px",
-                  color: "var(--text-muted)",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "color 0.25s ease",
-                  padding: "4px 0",
-                  whiteSpace: "nowrap",
-                  minWidth: "max-content",
-                  flexShrink: 0,
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--text-primary)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "var(--text-muted)")
-                }
-              >
-                {brand}
-              </button>
-            </span>
-          ))}
-          {/* Spacer to ensure the last item is never clipped by the edge of the scroll container */}
-          <span style={{ width: "24px", flexShrink: 0 }} />
-        </div>
+      <p
+        style={{
+          fontFamily: "var(--font-label)",
+          fontSize: "10px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "var(--gold-muted)",
+          textAlign: "center",
+          marginBottom: "32px",
+        }}
+      >
+        ICONIC HOUSES
+      </p>
+
+      <div className="brands-grid">
+        {BRANDS.map((brand) => (
+          <Link
+            key={brand}
+            to={`/shop?brand=${encodeURIComponent(brand)}`}
+            className="brand-item"
+          >
+            {brand}
+          </Link>
+        ))}
       </div>
-      <style>{`
-        .brands-scroll::-webkit-scrollbar { display: none; }
-        @media (max-width: 1200px) {
-          .brands-scroll { justify-content: flex-start !important; }
-        }
-      `}</style>
     </section>
   );
 }
