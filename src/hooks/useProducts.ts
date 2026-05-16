@@ -42,8 +42,10 @@ export function useProducts(options: GetProductsOptions = {}): UseProductsReturn
   const loadMore = useCallback(async () => {
     if (!data.hasMore || !data.lastDoc) return;
     setLoading(true);
+    // Parse options fresh from key to avoid stale closure over options prop
+    const currentOptions = JSON.parse(optionsKey) as GetProductsOptions;
     try {
-      const more = await getProducts({ ...options, lastDoc: data.lastDoc });
+      const more = await getProducts({ ...currentOptions, lastDoc: data.lastDoc });
       setData((prev) => ({
         products: [...prev.products, ...more.products],
         lastDoc: more.lastDoc,
@@ -54,7 +56,7 @@ export function useProducts(options: GetProductsOptions = {}): UseProductsReturn
     } finally {
       setLoading(false);
     }
-  }, [data.hasMore, data.lastDoc, options]);
+  }, [data.hasMore, data.lastDoc, optionsKey]);
 
   return { ...data, loading, error, loadMore };
 }

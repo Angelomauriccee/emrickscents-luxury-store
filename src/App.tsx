@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
 import { CartProvider } from './context/CartContext';
 import { SearchProvider } from './context/SearchContext';
 import { ShippingModalProvider } from './context/ShippingModalContext';
@@ -19,10 +18,7 @@ import Contact from './pages/Contact';
 import StoreLocator from './pages/StoreLocator';
 import NotFound from './pages/NotFound';
 
-import { testConnection } from './firebase/products';
-
 function AppContent() {
-  useEffect(() => { testConnection(); }, []);
   return (
     <>
       <Navbar />

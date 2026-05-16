@@ -58,7 +58,7 @@ export async function getProducts(
   const snap = await getDocs(q);
 
   let products = snap.docs.map(
-    (d) => ({ ...d.data(), _docRef: d }) as unknown as Product,
+    (d) => ({ id: d.id, ...d.data(), _docRef: d }) as unknown as Product,
   );
 
   // Client-side filter for brand and collection because they might not exist as root fields
@@ -92,7 +92,8 @@ export async function getProducts(
   return {
     products,
     lastDoc: snap.docs[snap.docs.length - 1] || null,
-    hasMore: snap.docs.length === pageSize,
+    // When client-side filters active, raw snap count is the reliable signal
+    hasMore: snap.docs.length === (brand || col ? 200 : pageSize),
   };
 }
 
@@ -107,7 +108,8 @@ export async function getFeaturedProducts(count = 4): Promise<Product[]> {
   // Simple query — no composite index needed (single where, no orderBy)
   const q = query(productsRef, where("isNew", "==", true), limit(count));
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data() as Product);
+  // Use doc.id as the id field so ProductCard links to the correct product page
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Product);
 }
 
 export async function getRelatedProducts(
@@ -116,14 +118,17 @@ export async function getRelatedProducts(
   _col: string | null,
   count = 6,
 ): Promise<Product[]> {
-  // Fallback: fetch all products then filter client-side
-  // (avoids composite index requirement for brand+inStock+orderBy)
-  const q = query(productsRef, limit(50));
-  const snap = await getDocs(q);
-  return snap.docs
-    .map((d) => d.data() as Product)
-    .filter((p) => p.id !== currentSlug && p.inStock !== false)
-    .slice(0, count);
+  const snap = await getDocs(query(productsRef, limit(50)));
+  const lower = brand.toLowerCase();
+  const all = snap.docs
+    .map((d) => ({ id: d.id, ...d.data() }) as Product)
+    .filter((p) => p.id !== currentSlug && p.inStock !== false);
+
+  // Prefer same-brand products, fall back to any in-stock product
+  const sameBrand = all.filter(
+    (p) => p.brand && p.brand.toLowerCase() === lower,
+  );
+  return (sameBrand.length >= count ? sameBrand : [...sameBrand, ...all.filter((p) => !sameBrand.includes(p))]).slice(0, count);
 }
 
 export async function searchProducts(term: string): Promise<Product[]> {
@@ -155,10 +160,3 @@ export async function getPageCursor(
   return snap.docs[snap.docs.length - 1] || null;
 }
 
-// Temporary connection test — remove after confirming ──────
-export async function testConnection() {
-  const q = query(collection(db, "products"), limit(1));
-  const snap = await getDocs(q);
-  console.log("Total docs found:", snap.size);
-  console.log("First doc:", snap.docs[0]?.data());
-}
