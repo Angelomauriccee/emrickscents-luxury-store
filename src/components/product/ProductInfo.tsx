@@ -15,10 +15,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const { addToCart } = useCart();
   const ctaRef = useRef<HTMLButtonElement>(null);
 
-  const sizes = product.images?.length > 0
-    ? [product.size]
-    : [product.size];
-
   const availableSizes = product.size ? [product.size] : [];
 
   const handleAddToCart = () => {

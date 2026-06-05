@@ -9,7 +9,7 @@ import { Footer } from '../components/layout/Footer';
 import { FilterProvider, useFilters } from '../context/FilterContext';
 import { getProducts } from '../firebase/products';
 import { Product } from '../types';
-import { PRODUCTS_PER_PAGE, FILTER_PILLS } from '../utils/constants';
+import { PRODUCTS_PER_PAGE, PRODUCTS_FETCH_LIMIT, FILTER_PILLS } from '../utils/constants';
 import { formatPrice } from '../utils/formatPrice';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -98,6 +98,7 @@ function ShopContent() {
   const [products, setProducts] = useState<Product[]>([]);
   const [allBrands, setAllBrands] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [totalCount, setTotalCount] = useState(0);
@@ -149,7 +150,7 @@ function ShopContent() {
     let cancelled = false;
     setLoading(true);
     // Fetch a large page size to get all products in the database
-    getProducts({ pageSize: 250 }).then((result) => {
+    getProducts({ pageSize: PRODUCTS_FETCH_LIMIT }).then((result) => {
       if (cancelled) return;
       setAllProducts(result.products);
 
@@ -169,6 +170,7 @@ function ShopContent() {
     }).catch((err) => {
       if (cancelled) return;
       console.error('Firestore getProducts error:', err);
+      setFetchError('Failed to load fragrances. Please refresh the page.');
       setLoading(false);
     });
     return () => { cancelled = true; };
@@ -330,6 +332,15 @@ function ShopContent() {
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }} className="shop-grid">
             {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : fetchError ? (
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <p style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-ui)', fontSize: '15px', marginBottom: '24px' }}>
+              {fetchError}
+            </p>
+            <button className="btn-secondary" onClick={() => window.location.reload()}>
+              RETRY
+            </button>
           </div>
         ) : visibleProducts.length === 0 ? (
           <EmptyState

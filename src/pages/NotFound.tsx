@@ -10,6 +10,7 @@ import { Product } from '../types';
 export default function NotFound() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [suggestionsAvailable, setSuggestionsAvailable] = useState(true);
 
   const bgTextRef = useRef<HTMLDivElement>(null);
   const topLineRef = useRef<HTMLDivElement>(null);
@@ -26,8 +27,8 @@ export default function NotFound() {
         setProducts(data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error('Error fetching featured products:', err);
+      .catch(() => {
+        setSuggestionsAvailable(false);
         setLoading(false);
       });
   }, []);
@@ -103,7 +104,7 @@ export default function NotFound() {
       </div>
 
       {/* CURATED SUGGESTIONS */}
-      <div style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '60px 24px' }}>
+      {suggestionsAvailable && <div style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--gold-line)', padding: '60px 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <p className="text-label" style={{ color: 'var(--gold-muted)', fontSize: '10px' }}>
             YOU MIGHT ENJOY
@@ -126,7 +127,7 @@ export default function NotFound() {
             ))
           )}
         </div>
-      </div>
+      </div>}
     </>
   );
 }

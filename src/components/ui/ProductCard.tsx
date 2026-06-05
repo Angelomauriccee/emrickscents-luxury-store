@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../../types';
 import { formatPrice } from '../../utils/formatPrice';
@@ -12,7 +12,7 @@ interface ProductCardProps {
   onAddToCart?: () => void;
 }
 
-export function ProductCard({ product, variant = 'default', showQuickAdd = true, onAddToCart }: ProductCardProps) {
+function ProductCardBase({ product, variant = 'default', showQuickAdd = true, onAddToCart }: ProductCardProps) {
   const cardRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -149,3 +149,9 @@ export function ProductCard({ product, variant = 'default', showQuickAdd = true,
     </article>
   );
 }
+
+export const ProductCard = memo(ProductCardBase, (prev, next) =>
+  prev.product.id === next.product.id &&
+  prev.variant === next.variant &&
+  prev.showQuickAdd === next.showQuickAdd
+);

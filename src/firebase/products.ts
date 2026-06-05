@@ -10,6 +10,7 @@ import {
   limit,
   startAfter,
   DocumentSnapshot,
+  QueryConstraint,
 } from "firebase/firestore";
 import { Product, GetProductsOptions, ProductsResult } from "../types";
 
@@ -33,8 +34,7 @@ export async function getProducts(
   // NOTE: We avoid leading where() + orderBy() on different fields because
   // that requires a Firestore composite index. Instead, filters go first and
   // we only orderBy when no composite-index-triggering where clauses are used.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const constraints: any[] = [];
+  const constraints: QueryConstraint[] = [];
 
   if (category) constraints.push(where("category", "==", category));
   if (isNew) constraints.push(where("isNew", "==", true));

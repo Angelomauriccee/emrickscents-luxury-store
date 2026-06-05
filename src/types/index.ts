@@ -1,3 +1,5 @@
+import type { Timestamp, DocumentSnapshot } from 'firebase/firestore';
+
 export interface ProductDetails {
   topNotes: string[];
   heartNotes: string[];
@@ -25,7 +27,7 @@ export interface Product {
   collection: 'limited' | 'signature' | '' | null;
   rating: number;
   reviewCount: number;
-  createdAt?: unknown;
+  createdAt?: Timestamp | Date | string;
 }
 
 export interface BoxProduct {
@@ -75,7 +77,7 @@ export interface ActiveFilters {
 
 export interface ProductsResult {
   products: Product[];
-  lastDoc: unknown;
+  lastDoc: DocumentSnapshot | null;
   hasMore: boolean;
 }
 
@@ -87,5 +89,5 @@ export interface GetProductsOptions {
   sortBy?: string;
   sortDir?: 'asc' | 'desc';
   pageSize?: number;
-  lastDoc?: unknown;
+  lastDoc?: DocumentSnapshot | null;
 }

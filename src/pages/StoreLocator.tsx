@@ -7,11 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '../hooks/useGSAP';
 import { BeaconMarker } from '../components/ui/BeaconMarker';
 import { Footer } from '../components/layout/Footer';
+import { STORE_INFO } from '../utils/constants';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LONGITUDE = 3.3843;
-const LATITUDE = 6.5793;
+const { lat: LATITUDE, lng: LONGITUDE } = STORE_INFO.coords;
 
 export default function StoreLocator() {
   const headerRef = useRef<HTMLDivElement>(null);

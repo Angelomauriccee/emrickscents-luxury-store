@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useSearch } from '../../context/SearchContext';
@@ -18,6 +18,7 @@ export function SearchOverlay() {
   const contentRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedTerm = useDebounce(searchTerm, 400);
+  const [searchError, setSearchError] = useState(false);
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -42,12 +43,17 @@ export function SearchOverlay() {
   useEffect(() => {
     if (!debouncedTerm || debouncedTerm.length < 2) {
       setSearchResults([]);
+      setSearchError(false);
       return;
     }
     setIsSearching(true);
+    setSearchError(false);
     searchProducts(debouncedTerm)
       .then(setSearchResults)
-      .catch(() => setSearchResults([]))
+      .catch(() => {
+        setSearchResults([]);
+        setSearchError(true);
+      })
       .finally(() => setIsSearching(false));
   }, [debouncedTerm, setSearchResults, setIsSearching]);
 
@@ -162,7 +168,12 @@ export function SearchOverlay() {
                 ))}
               </div>
             )}
-            {!isSearching && searchResults.length === 0 && (
+            {!isSearching && searchError && (
+              <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '40px' }}>
+                Search unavailable. Please try again.
+              </p>
+            )}
+            {!isSearching && !searchError && searchResults.length === 0 && (
               <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '40px' }}>
                 No fragrances found for "{searchTerm}"
               </p>

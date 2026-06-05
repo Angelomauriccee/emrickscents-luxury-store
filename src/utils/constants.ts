@@ -32,6 +32,8 @@ export const SORT_OPTIONS = [
 ];
 
 export const PRODUCTS_PER_PAGE = 12;
+export const PRODUCTS_FETCH_LIMIT = 250;
+export const NOTIFICATION_TIMEOUT_MS = 3500;
 
 export const STORE_INFO = {
   name: 'Emrickscents Flagship Boutique',

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { CartItem, BoxProduct, Product } from '../types';
+import { NOTIFICATION_TIMEOUT_MS } from '../utils/constants';
 
 interface CartNotification {
   visible: boolean;
@@ -23,11 +24,25 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = 'emrickscents-cart';
 
+function isValidCartItem(item: unknown): item is CartItem {
+  return (
+    typeof item === 'object' &&
+    item !== null &&
+    typeof (item as CartItem).id === 'string' &&
+    typeof (item as CartItem).name === 'string' &&
+    typeof (item as CartItem).price === 'number' &&
+    typeof (item as CartItem).quantity === 'number'
+  );
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
+      if (!stored) return [];
+      const parsed = JSON.parse(stored);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(isValidCartItem);
     } catch {
       return [];
     }
@@ -82,7 +97,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       },
     });
 
-    setTimeout(() => setNotification({ visible: false, item: null }), 3500);
+    setTimeout(() => setNotification({ visible: false, item: null }), NOTIFICATION_TIMEOUT_MS);
   }, []);
 
   const addCustomItem = useCallback((item: CartItem) => {
@@ -127,7 +142,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       : 'unisex';
 
     const boxItem: CartItem = {
-      id: `box-${Date.now()}`,
+      id: `box-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       name: `Fragrance Box (${products.length} items)`,
       brand: 'EMRICKSCENTS',
       price: totalPrice,

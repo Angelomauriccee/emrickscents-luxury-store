@@ -17,7 +17,7 @@ export function useProducts(options: GetProductsOptions = {}): UseProductsReturn
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const optionsKey = JSON.stringify(options);
+  const depKey = `${options.category ?? ''}|${options.brand ?? ''}|${options.collection ?? ''}|${options.isNew ?? ''}|${options.sortBy ?? ''}|${options.sortDir ?? ''}|${options.pageSize ?? ''}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -37,15 +37,13 @@ export function useProducts(options: GetProductsOptions = {}): UseProductsReturn
 
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [optionsKey]);
+  }, [depKey]);
 
   const loadMore = useCallback(async () => {
     if (!data.hasMore || !data.lastDoc) return;
     setLoading(true);
-    // Parse options fresh from key to avoid stale closure over options prop
-    const currentOptions = JSON.parse(optionsKey) as GetProductsOptions;
     try {
-      const more = await getProducts({ ...currentOptions, lastDoc: data.lastDoc });
+      const more = await getProducts({ ...options, lastDoc: data.lastDoc });
       setData((prev) => ({
         products: [...prev.products, ...more.products],
         lastDoc: more.lastDoc,
@@ -56,7 +54,8 @@ export function useProducts(options: GetProductsOptions = {}): UseProductsReturn
     } finally {
       setLoading(false);
     }
-  }, [data.hasMore, data.lastDoc, optionsKey]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.hasMore, data.lastDoc, depKey]);
 
   return { ...data, loading, error, loadMore };
 }
