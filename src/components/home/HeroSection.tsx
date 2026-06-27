@@ -1,6 +1,9 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+
+const HERO_VIDEO_URL =
+  'https://res.cloudinary.com/drtmoxle9/video/upload/mixkit-spraying-a-perfume-sample-in-a-store-21980-hd-ready_ofse1v';
 
 export function HeroSection() {
   const microLabelRef = useRef<HTMLParagraphElement>(null);
@@ -9,14 +12,6 @@ export function HeroSection() {
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const ctasRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % 5);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -130,28 +125,26 @@ export function HeroSection() {
             zIndex: 1,
           }}
         />
-        {['/images/hero-perfume.png', '/images/hero-perfume-2.png', '/images/hero-perfume-3.png', '/images/hero-perfume-4.png', '/images/hero-perfume-5.png'].map((src, index) => (
-          <img
-            key={src}
-            src={src}
-            alt={`Luxury perfume variation ${index + 1}`}
-            loading={index === 0 ? "eager" : "lazy"}
-            fetchPriority={index === 0 ? "high" : "auto"}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              filter: 'brightness(0.9)',
-              opacity: index === currentImageIndex ? 1 : 0,
-              transition: 'opacity 1.2s ease-in-out',
-              zIndex: 0,
-            }}
-          />
-        ))}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            filter: 'brightness(0.85)',
+            zIndex: 0,
+          }}
+        >
+          <source src={`${HERO_VIDEO_URL}.webm`} type="video/webm" />
+          <source src={`${HERO_VIDEO_URL}.mp4`} type="video/mp4" />
+        </video>
       </div>
 
       <style>{`
