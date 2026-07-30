@@ -5,7 +5,9 @@ import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { FiArrowLeft, FiShield, FiTruck, FiMessageCircle, FiCheck, FiShoppingBag } from 'react-icons/fi';
 import { formatPrice } from '../utils/formatPrice';
+import { productAltText } from '../utils/productAlt';
 import { useCart } from '../context/CartContext';
+import { SEO } from '../components/seo/SEO';
 
 const STEPS = ['01 SELECT', '02 PERSONALISE', '03 ORDER'];
 
@@ -203,6 +205,11 @@ export default function BuildYourBox() {
 
   return (
     <>
+      <SEO
+        title="Build Your Own Perfume Gift Box"
+        description="Create a personalised luxury fragrance gift box — pick your perfumes, choose a ribbon, add a message. Curated gifting from EMRICKSCENTS, Lagos."
+        path="/build-your-box"
+      />
       {/* ═══════════════════════════════════════════════
           STEP 0 — SELECT
           ═══════════════════════════════════════════════ */}
@@ -286,7 +293,7 @@ export default function BuildYourBox() {
                           <div style={{ height: '320px', background: 'var(--bg-surface)', overflow: 'hidden', position: 'relative' }}>
                             <img
                               src={product.images?.[0] || product.image}
-                              alt={product.name}
+                              alt={productAltText(product)}
                               loading="lazy"
                               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                             />
@@ -489,7 +496,7 @@ export default function BuildYourBox() {
                       }}>
                         <img
                           src={p.images?.[0] || p.image}
-                          alt={p.name}
+                          alt={productAltText(p)}
                           style={{ width: '72px', height: '72px', objectFit: 'contain', marginBottom: '8px', filter: 'grayscale(80%)' }}
                           onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.style.display = 'none'; }}
                         />

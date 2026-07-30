@@ -6,3 +6,4 @@ dist
 scripts/serviceAccountKey.json
 scripts/products.cjs
 scripts/uploadProducts.cjs
+.claude-context.md

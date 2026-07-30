@@ -8,10 +8,26 @@ import { useGSAP } from '../hooks/useGSAP';
 import { BeaconMarker } from '../components/ui/BeaconMarker';
 import { Footer } from '../components/layout/Footer';
 import { STORE_INFO } from '../utils/constants';
+import { SEO, SITE_URL } from '../components/seo/SEO';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const { lat: LATITUDE, lng: LONGITUDE } = STORE_INFO.coords;
+
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Store',
+  name: STORE_INFO.name,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: STORE_INFO.address,
+    addressLocality: 'Lagos',
+    addressCountry: 'NG',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: LATITUDE, longitude: LONGITUDE },
+  openingHours: STORE_INFO.hours,
+  url: `${SITE_URL}/store-locator`,
+};
 
 export default function StoreLocator() {
   const headerRef = useRef<HTMLDivElement>(null);
@@ -50,6 +66,12 @@ export default function StoreLocator() {
 
   return (
     <>
+      <SEO
+        title="Store Locator — Visit Our Lagos Boutique"
+        description={`Visit the EMRICKSCENTS flagship boutique at ${STORE_INFO.address}. ${STORE_INFO.hours}. In-person fragrance consultations and the full luxury perfume collection.`}
+        path="/store-locator"
+        jsonLd={localBusinessJsonLd}
+      />
       <div>
         {/* SECTION 1 — PAGE HEADER */}
         <div

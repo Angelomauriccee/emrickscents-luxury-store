@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '../hooks/useGSAP';
 import { BeaconMarker } from '../components/ui/BeaconMarker';
 import { Footer } from '../components/layout/Footer';
+import { SEO } from '../components/seo/SEO';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +21,16 @@ const FAQS = [
   { q: "Can I sample your fragrances before purchasing a full bottle?", a: "Yes! We offer a discovery set that includes samples of our most popular fragrances — a perfect way to explore and find your signature scent before committing to a full-size bottle." },
   { q: "Are your products cruelty-free?", a: "Yes, all Emrickscents products are cruelty-free. We do not test on animals, nor do we work with suppliers who test on animals. We are committed to ethical and sustainable practices." },
 ];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -83,6 +94,12 @@ export default function Contact() {
 
   return (
     <>
+      <SEO
+        title="Contact Us — Perfume Consultations & Support"
+        description="Get in touch with EMRICKSCENTS for fragrance consultations, order support, and delivery questions. Read our FAQs on returns, authenticity, and shipping across Nigeria."
+        path="/contact"
+        jsonLd={faqJsonLd}
+      />
       <div>
         {/* SECTION 1 — PAGE HEADER */}
         <div className="page-header" style={{

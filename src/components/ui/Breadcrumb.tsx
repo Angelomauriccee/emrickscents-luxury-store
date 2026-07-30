@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
+import { SITE_URL } from '../seo/SEO';
 
 interface BreadcrumbItem {
   label: string;
@@ -11,8 +12,22 @@ interface BreadcrumbProps {
 }
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
+  const location = useLocation();
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: `${SITE_URL}${item.path ?? location.pathname}`,
+    })),
+  };
+
   return (
     <nav style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+      <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
       {items.map((item, index) => (
         <span key={index} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {index > 0 && <FiChevronRight size={10} style={{ color: 'var(--text-muted)' }} />}

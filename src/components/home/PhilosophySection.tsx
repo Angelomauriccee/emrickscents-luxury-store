@@ -25,7 +25,7 @@ export function PhilosophySection() {
         <div style={{ width: '50%', background: 'var(--bg-surface)', overflow: 'hidden', position: 'relative' }} className="philosophy-img">
           <img
             src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&q=80"
-            alt="Philosophy"
+            alt="Luxury perfume bottle on display — the EMRICKSCENTS approach to fragrance curation"
             loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(30%) brightness(0.7)' }}
           />

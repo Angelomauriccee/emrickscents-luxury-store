@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { Product } from '../../types';
 import { formatPrice } from '../../utils/formatPrice';
+import { productAltText } from '../../utils/productAlt';
 import { useCart } from '../../context/CartContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -52,7 +53,7 @@ export function StickyCartBar({ product }: StickyCartBarProps) {
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{ width: '40px', height: '48px', background: 'var(--bg-surface)', overflow: 'hidden', flexShrink: 0 }}>
-          <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={product.image} alt={productAltText(product)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 300, color: 'var(--text-primary)' }}>{product.name}</p>

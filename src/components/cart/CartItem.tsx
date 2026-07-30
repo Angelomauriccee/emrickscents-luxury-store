@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import { CartItem as CartItemType } from '../../types';
 import { formatPrice } from '../../utils/formatPrice';
+import { productAltText } from '../../utils/productAlt';
 import { useCart } from '../../context/CartContext';
 import gsap from 'gsap';
 
@@ -99,7 +100,7 @@ export function CartItem({ item }: CartItemProps) {
               <div style={{ width: '80px', height: '80px', background: 'var(--bg-surface)', border: '1px solid var(--bg-border)', overflow: 'hidden' }}>
                 <img
                   src={p.image}
-                  alt={p.name}
+                  alt={productAltText(p)}
                   style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'grayscale(80%)' }}
                 />
               </div>
@@ -170,7 +171,7 @@ export function CartItem({ item }: CartItemProps) {
     >
       {/* Image */}
       <div style={{ width: '100px', height: '120px', flexShrink: 0, background: 'var(--bg-surface)', border: '1px solid var(--bg-border)', overflow: 'hidden' }}>
-        <img src={item.image} alt={item.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={item.image} alt={productAltText(item)} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
 
       {/* Info */}

@@ -6,6 +6,7 @@ import { OrderSummary } from '../components/cart/OrderSummary';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Footer } from '../components/layout/Footer';
 import { useCart } from '../context/CartContext';
+import { SEO } from '../components/seo/SEO';
 
 export default function Cart() {
   const { cartItems, cartCount, clearCart } = useCart();
@@ -23,6 +24,7 @@ export default function Cart() {
 
   return (
     <>
+      <SEO title="Your Cart" description="Review your selected fragrances before checkout." path="/cart" noindex />
       <div className="container-content cart-page" style={{ padding: '64px 80px', minHeight: '80vh' }}>
         {cartItems.length === 0 ? (
           <EmptyState

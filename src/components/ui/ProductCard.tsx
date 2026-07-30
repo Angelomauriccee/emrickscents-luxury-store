@@ -2,6 +2,7 @@ import { useRef, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../../types';
 import { formatPrice } from '../../utils/formatPrice';
+import { productAltText } from '../../utils/productAlt';
 import { useCart } from '../../context/CartContext';
 import gsap from 'gsap';
 
@@ -80,7 +81,7 @@ function ProductCardBase({ product, variant = 'default', showQuickAdd = true, on
         >
           <img
             src={product.image}
-            alt={product.name}
+            alt={productAltText(product)}
             loading="lazy"
             style={{
               width: '100%',

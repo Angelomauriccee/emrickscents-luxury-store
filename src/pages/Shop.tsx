@@ -7,10 +7,12 @@ import { Pagination } from '../components/ui/Pagination';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Footer } from '../components/layout/Footer';
 import { FilterProvider, useFilters } from '../context/FilterContext';
+import { SEO } from '../components/seo/SEO';
 import { getProducts } from '../firebase/products';
 import { Product } from '../types';
 import { PRODUCTS_PER_PAGE, PRODUCTS_FETCH_LIMIT, FILTER_PILLS } from '../utils/constants';
 import { formatPrice } from '../utils/formatPrice';
+import { productAltText } from '../utils/productAlt';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import gsap from 'gsap';
@@ -46,7 +48,7 @@ function ProductListRow({ product }: { product: Product }) {
         <div style={{ width: '100px', height: '120px', background: 'var(--bg-surface)', overflow: 'hidden', flexShrink: 0 }}>
           <img
             src={product.image}
-            alt={product.name}
+            alt={productAltText(product)}
             loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
             className="list-img"
@@ -236,6 +238,11 @@ function ShopContent() {
 
   return (
     <>
+      <SEO
+        title="Shop Luxury Perfumes & Fragrances Online"
+        description="Browse the full EMRICKSCENTS collection — designer and niche perfumes for men and women, limited editions, and signature scents. Authentic fragrances, Nigeria-wide delivery."
+        path="/shop"
+      />
       {/* Page header */}
       <div className="page-header" style={{
         minHeight: '240px', background: 'var(--bg-elevated)', borderBottom: '1px solid var(--gold-line)',

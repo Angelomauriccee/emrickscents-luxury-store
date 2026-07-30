@@ -6,6 +6,7 @@ import { ProductCard } from '../components/ui/ProductCard';
 import { SkeletonCard } from '../components/ui/SkeletonCard';
 import { getFeaturedProducts } from '../firebase/products';
 import { Product } from '../types';
+import { SEO } from '../components/seo/SEO';
 
 export default function NotFound() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -21,7 +22,6 @@ export default function NotFound() {
   const bottomLineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.title = 'Page Not Found — EMRICKSCENTS';
     getFeaturedProducts(3)
       .then((data) => {
         setProducts(data);
@@ -47,6 +47,7 @@ export default function NotFound() {
 
   return (
     <>
+      <SEO title="Page Not Found" description="The page you're looking for may have moved or no longer exists." path="/404" noindex />
       <div style={{ position: 'relative', width: '100%', minHeight: 'calc(100vh - 72px)', background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
         
         {/* Background 404 Text */}

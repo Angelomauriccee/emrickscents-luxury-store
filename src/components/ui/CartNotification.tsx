@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { formatPrice } from '../../utils/formatPrice';
+import { productAltText } from '../../utils/productAlt';
 import gsap from 'gsap';
 
 export function CartNotification() {
@@ -42,7 +43,7 @@ export function CartNotification() {
       <div style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
         {/* Image */}
         <div style={{ width: '56px', height: '56px', flexShrink: 0, background: 'var(--bg-surface)', overflow: 'hidden' }}>
-          <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={item.image} alt={productAltText(item)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         {/* Info */}
         <div style={{ flex: 1, minWidth: 0 }}>

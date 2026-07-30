@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '../hooks/useGSAP';
 import { Footer } from '../components/layout/Footer';
+import { SEO } from '../components/seo/SEO';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,6 +47,11 @@ export default function About() {
 
   return (
     <>
+      <SEO
+        title="About Us — Our Story"
+        description="EmRick Scents is a luxury fragrance boutique in Lagos offering authentic designer and niche perfumes, diffusers, and candles — curated with personalised consultations for every identity."
+        path="/about"
+      />
       {/* SECTION 1 — HERO */}
       <div className="about-hero" style={{ position: 'relative', width: '100%', height: '60vh', background: 'var(--bg-elevated)', backgroundImage: 'url(/images/about_hero.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1 }} />

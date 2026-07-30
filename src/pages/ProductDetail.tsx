@@ -10,6 +10,9 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { Footer } from '../components/layout/Footer';
 import { getProductBySlug } from '../firebase/products';
 import { Product } from '../types';
+import { SEO, SITE_URL } from '../components/seo/SEO';
+import { formatPrice } from '../utils/formatPrice';
+import { productAltText } from '../utils/productAlt';
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -25,7 +28,6 @@ export default function ProductDetail() {
         if (!p) { navigate('/404', { replace: true }); return; }
         setProduct(p);
         setLoading(false);
-        document.title = `${p.name} — EMRICKSCENTS`;
       })
       .catch(() => { navigate('/404', { replace: true }); });
   }, [slug, navigate]);
@@ -33,8 +35,47 @@ export default function ProductDetail() {
   if (loading) return <LoadingSpinner />;
   if (!product) return null;
 
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    brand: product.brand ? { '@type': 'Brand', name: product.brand } : undefined,
+    description: product.description,
+    image: product.images?.length > 0 ? product.images : [product.image],
+    sku: product.id,
+    offers: {
+      '@type': 'Offer',
+      url: `${SITE_URL}/product/${product.id}`,
+      priceCurrency: 'NGN',
+      price: product.price,
+      availability: product.inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+    },
+    ...(product.rating
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: product.rating,
+            reviewCount: product.reviewCount || 1,
+          },
+        }
+      : {}),
+  };
+
   return (
     <>
+      <SEO
+        title={`${product.name}${product.brand ? ` by ${product.brand}` : ''}`}
+        description={
+          product.description?.slice(0, 155) ||
+          `Shop ${product.name} at EMRICKSCENTS — authentic luxury fragrance, ${formatPrice(product.price)}, Nigeria-wide delivery.`
+        }
+        path={`/product/${product.id}`}
+        image={product.image}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       {/* Breadcrumb */}
       <div className="container-content pdp-breadcrumb" style={{ padding: '24px 80px' }}>
         <Breadcrumb
@@ -53,7 +94,7 @@ export default function ProductDetail() {
           <div>
             <ImageGallery
               images={product.images?.length > 0 ? product.images : [product.image]}
-              alt={product.name}
+              alt={productAltText(product)}
             />
           </div>
 

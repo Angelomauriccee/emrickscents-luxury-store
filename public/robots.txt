@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /admin
+Disallow: /404
+
+Sitemap: https://emrickscents.com/sitemap.xml
