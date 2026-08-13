@@ -17,6 +17,28 @@ import { Product, GetProductsOptions, ProductsResult } from "../types";
 const PRODUCTS_PER_PAGE = 8;
 const productsRef = collection(db, "products");
 
+function cleanImgPath(pathStr: unknown): string {
+  if (typeof pathStr !== "string" || !pathStr.trim()) return "";
+  const trimmed = pathStr.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+  return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+}
+
+function formatDocProduct(d: DocumentSnapshot): Product {
+  const data = d.data() || {};
+  const rawImages = Array.isArray(data.images) ? data.images : [];
+  const cleanImages = rawImages.map(cleanImgPath).filter(Boolean);
+
+  const primaryImage = cleanImgPath(data.image) || cleanImages[0] || "/images/placeholder.svg";
+
+  return {
+    ...data,
+    id: d.id,
+    image: primaryImage,
+    images: cleanImages.length > 0 ? cleanImages : [primaryImage],
+  } as Product;
+}
+
 export async function getProducts(
   options: GetProductsOptions = {},
 ): Promise<ProductsResult> {
@@ -31,16 +53,11 @@ export async function getProducts(
     lastDoc = null,
   } = options;
 
-  // NOTE: We avoid leading where() + orderBy() on different fields because
-  // that requires a Firestore composite index. Instead, filters go first and
-  // we only orderBy when no composite-index-triggering where clauses are used.
   const constraints: QueryConstraint[] = [];
 
   if (category) constraints.push(where("category", "==", category));
   if (isNew) constraints.push(where("isNew", "==", true));
 
-  // Only add orderBy when there are no where clauses (avoids composite index requirement)
-  // When filters are active, results are sorted client-side below.
   const hasFilters = category || brand || col || isNew;
   if (!hasFilters) {
     const sortField =
@@ -48,20 +65,15 @@ export async function getProducts(
     constraints.push(orderBy(sortField, sortDir as "asc" | "desc"));
   }
 
-  // If we have client-side filters (brand/col), fetch more to ensure we don't miss matches
   constraints.push(limit(brand || col ? 200 : pageSize));
 
-  // startAfter doesn't work well with client-side filtering, but we keep it for normal pagination
   if (lastDoc && !brand && !col) constraints.push(startAfter(lastDoc));
 
   const q = query(productsRef, ...constraints);
   const snap = await getDocs(q);
 
-  let products = snap.docs.map(
-    (d) => ({ id: d.id, ...d.data(), _docRef: d }) as unknown as Product,
-  );
+  let products = snap.docs.map(formatDocProduct);
 
-  // Client-side filter for brand and collection because they might not exist as root fields
   if (brand) {
     const lowerBrand = brand.toLowerCase();
     products = products.filter(
@@ -78,7 +90,6 @@ export async function getProducts(
     );
   }
 
-  // Client-side sort when filters are active (Firestore can't combine where+orderBy without index)
   if (hasFilters) {
     if (sortBy === "price") {
       products.sort((a, b) =>
@@ -92,7 +103,6 @@ export async function getProducts(
   return {
     products,
     lastDoc: snap.docs[snap.docs.length - 1] || null,
-    // When client-side filters active, raw snap count is the reliable signal
     hasMore: snap.docs.length === (brand || col ? 200 : pageSize),
   };
 }
@@ -101,15 +111,13 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   const ref = doc(db, "products", slug);
   const snap = await getDoc(ref);
   if (!snap.exists()) return null;
-  return snap.data() as Product;
+  return formatDocProduct(snap);
 }
 
 export async function getFeaturedProducts(count = 4): Promise<Product[]> {
-  // Simple query — no composite index needed (single where, no orderBy)
   const q = query(productsRef, where("isNew", "==", true), limit(count));
   const snap = await getDocs(q);
-  // Use doc.id as the id field so ProductCard links to the correct product page
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as Product);
+  return snap.docs.map(formatDocProduct);
 }
 
 export async function getRelatedProducts(
@@ -121,10 +129,9 @@ export async function getRelatedProducts(
   const snap = await getDocs(query(productsRef, limit(50)));
   const lower = brand.toLowerCase();
   const all = snap.docs
-    .map((d) => ({ id: d.id, ...d.data() }) as Product)
+    .map(formatDocProduct)
     .filter((p) => p.id !== currentSlug && p.inStock !== false);
 
-  // Prefer same-brand products, fall back to any in-stock product
   const sameBrand = all.filter(
     (p) => p.brand && p.brand.toLowerCase() === lower,
   );
@@ -138,7 +145,7 @@ export async function searchProducts(term: string): Promise<Product[]> {
   const lower = term.toLowerCase();
 
   return snap.docs
-    .map((d) => d.data() as Product)
+    .map(formatDocProduct)
     .filter(
       (p) =>
         p.name.toLowerCase().includes(lower) ||
@@ -148,7 +155,6 @@ export async function searchProducts(term: string): Promise<Product[]> {
     .slice(0, 12);
 }
 
-// Helper to get last document cursor for pagination
 export async function getPageCursor(
   pageNum: number,
   pageSize: number,
@@ -159,4 +165,3 @@ export async function getPageCursor(
   const snap = await getDocs(q);
   return snap.docs[snap.docs.length - 1] || null;
 }
-
