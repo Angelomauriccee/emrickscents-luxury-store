@@ -78,7 +78,7 @@ export function ShippingModal() {
         <div style={{ marginBottom: '28px' }}>
           {sectionLabel('SHIPPING')}
           {divider}
-          {bodyText('Curated delivery across Nigeria. Orders within Lagos are fulfilled via our private courier within 24–48 hours. Nationwide shipping takes 2–5 business days.')}
+          {bodyText('Shipping is calculated by customer service depending on your location. Our team will contact you after your order for delivery details and schedule.')}
         </div>
 
         {/* RETURNS */}

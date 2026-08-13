@@ -91,3 +91,24 @@ export interface GetProductsOptions {
   pageSize?: number;
   lastDoc?: DocumentSnapshot | null;
 }
+
+export interface CustomerInfo {
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+}
+
+export interface OrderRecord {
+  id?: string;
+  reference: string;
+  customer: CustomerInfo;
+  items: CartItem[];
+  totalAmount: number;
+  status: 'paid' | 'pending' | 'failed';
+  paymentChannel?: string;
+  createdAt: Timestamp | Date | string;
+}
+

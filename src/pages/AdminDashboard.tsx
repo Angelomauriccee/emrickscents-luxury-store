@@ -106,8 +106,6 @@ export default function AdminDashboard() {
         inStock,
         featured,
         collection: null,
-        rating: 5, // default rating
-        reviewCount: 0,
         createdAt: serverTimestamp(),
       };
 

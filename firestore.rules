@@ -7,7 +7,12 @@ service cloud.firestore {
     // But only YOU can WRITE (add/update products) from your secret /admin page
     match /products/{productId} {
       allow read: if true;
-      allow write: if true; // We will tighten this with a password/login later
+      allow write: if true;
+    }
+
+    match /orders/{orderId} {
+      allow read: if true;
+      allow write: if true;
     }
 
   }

@@ -24,6 +24,8 @@ const Contact = lazy(() => import("./pages/Contact"));
 const StoreLocator = lazy(() => import("./pages/StoreLocator"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
 
 function AppContent() {
   return (
@@ -41,6 +43,8 @@ function AppContent() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:slug" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/build-your-box" element={<BuildYourBox />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />

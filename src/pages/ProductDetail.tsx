@@ -52,15 +52,6 @@ export default function ProductDetail() {
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
     },
-    ...(product.rating
-      ? {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: product.rating,
-            reviewCount: product.reviewCount || 1,
-          },
-        }
-      : {}),
   };
 
   return (

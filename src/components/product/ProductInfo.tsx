@@ -53,13 +53,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {product.type} · {selectedSize}
       </p>
 
-      {/* Rating */}
-      {product.rating && (
-        <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
-          <span style={{ color: 'var(--gold)' }}>{'★'.repeat(Math.round(product.rating))}</span>
-          {' '}{product.rating} ({product.reviewCount} REVIEWS)
-        </p>
-      )}
 
       {/* Price */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>

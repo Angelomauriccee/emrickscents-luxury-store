@@ -18,3 +18,9 @@ export function buildWhatsAppUrl(cartItems: CartItem[]): string {
 
   return `https://wa.me/${number}?text=${message}`;
 }
+
+export function getWhatsAppCustomerServiceUrl(topic = 'Delivery & Shipping Enquiry'): string {
+  const number = (import.meta.env.VITE_WHATSAPP_NUMBER as string) || '+2348000000000';
+  const message = encodeURIComponent(`Hello Emrickscents! I have an enquiry regarding: ${topic}`);
+  return `https://wa.me/${number}?text=${message}`;
+}

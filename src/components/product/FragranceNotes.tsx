@@ -122,7 +122,17 @@ export function FragranceNotes({ details, description, ingredients }: FragranceN
 
       <AccordionItem title="SHIPPING & RETURNS">
         <div style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>
-          <p style={{ marginBottom: '12px' }}>Complimentary shipping on all orders within Lagos. Nationwide delivery in 3–5 business days.</p>
+          <p style={{ marginBottom: '12px' }}>
+            Shipping is calculated by customer service depending on your location. Our team will contact you after your order. For delivery info,{' '}
+            <a
+              href="https://wa.me/+2348000000000?text=Hello%20Emrickscents!%20I%20have%20an%20enquiry%20regarding%20shipping%20and%20delivery."
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--gold)', textDecoration: 'underline' }}
+            >
+              contact customer service via WhatsApp
+            </a>.
+          </p>
           <p>Returns accepted within 7 days of delivery for unopened items. Contact us via WhatsApp to initiate a return.</p>
         </div>
       </AccordionItem>

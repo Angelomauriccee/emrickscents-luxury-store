@@ -1,11 +1,12 @@
-import { BsWhatsapp } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import { FiLock } from 'react-icons/fi';
 import { useCart } from '../../context/CartContext';
 import { formatPrice } from '../../utils/formatPrice';
-import { buildWhatsAppUrl } from '../../utils/whatsapp';
+import { getWhatsAppCustomerServiceUrl } from '../../utils/whatsapp';
 
 export function OrderSummary() {
-  const { cartItems, cartTotal } = useCart();
-  const waUrl = buildWhatsAppUrl(cartItems);
+  const { cartTotal } = useCart();
+  const csWhatsAppUrl = getWhatsAppCustomerServiceUrl('Shipping & Delivery Info');
 
   return (
     <div
@@ -19,9 +20,11 @@ export function OrderSummary() {
           <span style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>Subtotal</span>
           <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-ui)', fontWeight: 500 }}>{formatPrice(cartTotal)}</span>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>Shipping</span>
-          <span style={{ fontFamily: 'var(--font-label)', fontSize: '11px', letterSpacing: '0.12em', color: 'var(--text-secondary)' }}>COMPLIMENTARY</span>
+          <span style={{ fontSize: '11px', fontFamily: 'var(--font-label)', letterSpacing: '0.05em', color: 'var(--gold)', textAlign: 'right' }}>
+            Calculated by Customer Service
+          </span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>Taxes</span>
@@ -36,18 +39,35 @@ export function OrderSummary() {
         </span>
       </div>
 
-      <a
-        href={waUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="btn-whatsapp"
+      <Link
+        to="/checkout"
+        className="btn-primary"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          width: '100%',
+          padding: '16px',
+          textDecoration: 'none',
+          textAlign: 'center',
+          letterSpacing: '0.15em',
+        }}
       >
-        <BsWhatsapp size={18} />
-        CHECKOUT VIA WHATSAPP
-      </a>
+        <FiLock size={16} />
+        PROCEED TO CHECKOUT
+      </Link>
 
-      <p style={{ color: 'var(--text-muted)', fontSize: '12px', textAlign: 'center', marginTop: '14px', lineHeight: 1.7, fontStyle: 'italic' }}>
-        Your selection will be sent directly to our master curator for personal fulfilment and exclusive concierge service.
+      <p style={{ color: 'var(--text-muted)', fontSize: '12px', textAlign: 'center', marginTop: '16px', lineHeight: 1.6 }}>
+        Shipping is calculated by customer service depending on your location. Our team will contact you after your order. For delivery info,{' '}
+        <a
+          href={csWhatsAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--gold)', textDecoration: 'underline' }}
+        >
+          contact customer service via WhatsApp
+        </a>.
       </p>
     </div>
   );
